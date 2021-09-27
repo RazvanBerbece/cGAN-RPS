@@ -6,9 +6,9 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 # CRISP-ML(Q)
 
 ## CRISP-ML(Q) Progress
-[ ] Business and Data Understanding
+[x] Business and Data Understanding
 
-[ ] Data Engineering (Data Preparation)
+[~] Data Engineering (Data Preparation)
 
 [ ] Machine Learning Model Engineering
 
@@ -27,16 +27,29 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 The development process should be carried in a virtual environment. When cloning the repository, there will be no virtual environment available, but it can be created & accessed & exit by running the terminal commands below (Unix/macOS) in the root of the project :
 ```console
 python3 -m venv env
-source env
+source env/bin/activate
 deactivate
 ```
 
 Libraries should be installed for the project while in the virtual environment.
 
-## Tech Stack
+## Data
+The dataset comes from the default tensorflow_datasets package. It needs to be installed in the environment to be accessible. This can be done by running the command below.
+
+```console
+pip install tensorflow_datasets
+```
+
+## Libs
 1. Tensorflow (& Keras)
 2. sklearn
 3. Python standard libs (numpy, matplotlib, cv2, etc.)
+
+Tensorflow and sklearn have to be installed using the commands below :
+```console
+pip install --upgrade tensorflow
+pip install scikit-learn
+```
 
 # Resources
 1. https://ml-ops.org/content/crisp-ml#:~:text=Overall%2C%20CRISP%2DML(Q,ensure%20the%20ML%20project's%20success
