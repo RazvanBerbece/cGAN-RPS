@@ -7,10 +7,15 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 ## CRISP-ML(Q) Progress
 [ ] Business and Data Understanding
+
 [ ] Data Engineering (Data Preparation)
+
 [ ] Machine Learning Model Engineering
+
 [ ] Quality Assurance for Machine Learning Applications
+
 [ ] Deployment
+
 [ ] Monitoring and Maintenance
 
 ## CRISP-ML(Q) Quality Assurance Flowchart
