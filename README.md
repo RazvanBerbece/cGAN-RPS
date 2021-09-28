@@ -54,3 +54,4 @@ pip install scikit-learn
 # Resources
 1. https://ml-ops.org/content/crisp-ml#:~:text=Overall%2C%20CRISP%2DML(Q,ensure%20the%20ML%20project's%20success
 2. https://learnopencv.com/conditional-gan-cgan-in-pytorch-and-tensorflow/
+3. https://developers.google.com/machine-learning/gan/generator

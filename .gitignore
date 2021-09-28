@@ -2,3 +2,4 @@ env/
 assets/.DS_Store
 .DS_Store
 model/classes/prep/__pycache__/
+model/classes/networks/generator/__pycache__/
