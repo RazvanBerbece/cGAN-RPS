@@ -8,6 +8,9 @@ class Dataset:
     """ Class used for the dataset reading & configuration phase of data preparation. """
 
     """
+        <<Constructor>>
+
+        <Params>
         dataset     = TFDS dataset name
         seed        = Seed for random shuffling of the data
         trainRatio  = Training data ratio (remaining is test data)

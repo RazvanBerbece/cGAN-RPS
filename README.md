@@ -10,7 +10,7 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 [~] Data Engineering (Data Preparation)
 
-[ ] Machine Learning Model Engineering
+[~] Machine Learning Model Engineering
 
 [ ] Quality Assurance for Machine Learning Applications
 

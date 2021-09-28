@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Package Imports
 import tensorflow as tf
 
