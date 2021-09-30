@@ -10,7 +10,7 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 [~] Data Engineering (Data Preparation)
 
-[~] Machine Learning Model Engineering (~~Generator~~, Discriminator, ImageGen)
+[~] Machine Learning Model Engineering (~~Generator~~, ~~Discriminator~~, Training Step, Training, ImageGen)
 
 [ ] Quality Assurance for Machine Learning Applications
 
@@ -56,3 +56,4 @@ pip install scikit-learn
 2. https://learnopencv.com/conditional-gan-cgan-in-pytorch-and-tensorflow/
 3. https://developers.google.com/machine-learning/gan/generator
 4. https://www.tensorflow.org/api_docs/python/tf/
+5. https://stackoverflow.com/questions/

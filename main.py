@@ -10,7 +10,8 @@ from model.classes.networks.discriminator.Discriminator import Discriminator
 # dataset = Dataset(dataset='RockPaperScissors', seed=512, trainRatio='75%', batchSize=128)
 
 # CONSTANTS
-num_classes = 3
+num_classes                     = 3
+latent_size                     = 100
 
 # HYPERPARAMETERS
 # Generator Params
@@ -24,6 +25,8 @@ discriminator_embedding_size    = 100
 discriminator_initial_num_nodes = 64
 dropout_rate                    = 0.4
 activation                      = 'sigmoid'
+# Training Step Params
+
 # Training Params
 epochs                          = 25
 learning_rate                   = 0.05
