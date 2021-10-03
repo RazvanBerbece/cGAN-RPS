@@ -62,26 +62,10 @@ class Generator:
                 num_nodes  = number of nodes for the fully connected Dense layer
         """
         # Network Layers & Forwarding
-        output_noise_dense      = layers.Dense(num_nodes)(self.input_noise)
+        output_noise_dense      = layers.Dense(num_nodes * self.embedding_row_size * self.embedding_col_size)(self.input_noise)
         output_noise_relu       = layers.ReLU()(output_noise_dense)
         output_noise_reshape    = layers.Reshape((self.embedding_row_size, self.embedding_col_size, num_nodes))(output_noise_relu)
         return output_noise_reshape
-    
-    def loss_function(self, function, label, fake_output):
-        """
-            Loss function for the generator which is used in the training phase
-            The loss is calculated with real targets (eg: 'paper')
-            TODO: Implement dynamic loss function support
-
-            <Params>
-                function    = loss function used for the generator instance
-                label       = 
-                fake_output = 
-        """
-        if function == 'binary_cross_entropy':
-            binary_cross_entropy = tf.keras.losses.BinaryCrossentropy()
-            generator_loss = binary_cross_entropy(label, fake_output)
-            return generator_loss
 
     def process_generator_network(self, num_classes, embedding_size, label_num_nodes, noise_num_nodes, generator_initial_num_nodes):
         """
@@ -136,27 +120,27 @@ class Generator:
         x = layers.BatchNormalization(momentum=0.1, epsilon=0.8,  center=1.0, scale=0.02, name='bn_3')(x)
         x = layers.ReLU(name='relu_3')(x)
 
-        x = layers.Conv2DTranspose(       \
-             generator_initial_num_nodes, \
-             kernel_size=4,               \
-             strides=2,                   \
-             padding='same',              \
+        x = layers.Conv2DTranspose(           \
+             generator_initial_num_nodes,     \
+             kernel_size=4,                   \
+             strides=2,                       \
+             padding='same',                  \
              kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
-             use_bias=False,              \
+             use_bias=False,                  \
              name='conv_transpose_4')(x)
         x = layers.BatchNormalization(momentum=0.1, epsilon=0.8, center=1.0, scale=0.02, name='bn_4')(x)
         x = layers.ReLU(name='relu_4')(x)
 
         # Output
-        output = layers.Conv2DTranspose(\
-            3,                          \
-            kernel_size=4,              \
-            strides=2,                  \
-            padding='same',             \
+        output = layers.Conv2DTranspose(      \
+            3,                                \
+            kernel_size=4,                    \
+            strides=2,                        \
+            padding='same',                   \
             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
-            use_bias=False,             \
-            activation='tanh',          \
-            name='conv_transpose_6')(x)
+            use_bias=False,                   \
+            activation='tanh',                \
+            name='conv_transpose_5')(x)
 
         # Set Generator Model
         self.model = tf.keras.Model([self.input_label, self.input_noise], output)

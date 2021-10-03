@@ -49,22 +49,6 @@ class Discriminator:
             Gets initial output from the image input nodes (Discriminator)
         """
         return self.input_image
-    
-    def loss_function(self, function, label, output):
-        """
-            Loss function for the discriminator which is used in the training phase
-            The loss is calculated with real targets (eg: 'paper')
-            TODO: Implement dynamic loss function support
-
-            <Params>
-                function    = loss function used for the generator instance
-                label       = 
-                output      = 
-        """
-        if function == 'binary_cross_entropy':
-            binary_cross_entropy = tf.keras.losses.BinaryCrossentropy()
-            discriminator_loss = binary_cross_entropy(label, output)
-            return discriminator_loss
 
     def process_discriminator_network(self, num_classes, embedding_size, discriminator_initial_num_nodes, dropout_rate, activation):
         """
@@ -86,45 +70,45 @@ class Discriminator:
         merged_net_input        = layers.Concatenate()([initial_image_output, initial_label_output])
         # Discriminator CNN Architecture + Forwarding
         # x is the input that is fordward fed through the network
-        x = layers.Conv2D(           \
-             discriminator_initial_num_nodes, \
-             kernel_size=4,                   \
-             strides=2,                       \
-             padding='same',                  \
-             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
-             use_bias=False,                  \
+        x = layers.Conv2D(                                                                  \
+             discriminator_initial_num_nodes,                                               \
+             kernel_size=4,                                                                 \
+             strides=2,                                                                     \
+             padding='same',                                                                \
+             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02),  \
+             use_bias=False,                                                                \
              name='conv_transpose_1')(merged_net_input)
         x = layers.LeakyReLU(0.2, name='leaky_relu_1')(x)
 
-        x = layers.Conv2D(           \
-             discriminator_initial_num_nodes * 2, \
-             kernel_size=4,                   \
-             strides=2,                       \
-             padding='same',                  \
-             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
-             use_bias=False,                  \
+        x = layers.Conv2D(                                                                  \
+             discriminator_initial_num_nodes * 2,                                           \
+             kernel_size=4,                                                                 \
+             strides=2,                                                                     \
+             padding='same',                                                                \
+             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02),  \
+             use_bias=False,                                                                \
              name='conv_transpose_2')(x)
         x = layers.BatchNormalization(momentum=0.1, epsilon=0.8, center=1.0, scale=0.02, name='bn_1')(x)
         x = layers.LeakyReLU(0.2, name='leaky_relu_2')(x)
 
-        x = layers.Conv2D(           \
-             discriminator_initial_num_nodes * 4, \
-             kernel_size=4,                   \
-             strides=2,                       \
-             padding='same',                  \
-             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
-             use_bias=False,                  \
+        x = layers.Conv2D(                                                                  \
+             discriminator_initial_num_nodes * 4,                                           \
+             kernel_size=4,                                                                 \
+             strides=2,                                                                     \
+             padding='same',                                                                \
+             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02),  \
+             use_bias=False,                                                                \
              name='conv_transpose_3')(x)
         x = layers.BatchNormalization(momentum=0.1, epsilon=0.8,  center=1.0, scale=0.02, name='bn_2')(x)
         x = layers.LeakyReLU(0.2, name='leaky_relu_3')(x)
 
-        x = layers.Conv2D(       \
-             discriminator_initial_num_nodes * 8, \
-             kernel_size=4,               \
-             strides=2,                   \
-             padding='same',              \
-             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
-             use_bias=False,              \
+        x = layers.Conv2D(                                                                  \
+             discriminator_initial_num_nodes * 8,                                           \
+             kernel_size=4,                                                                 \
+             strides=2,                                                                     \
+             padding='same',                                                                \
+             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02),  \
+             use_bias=False,                                                                \
              name='conv_transpose_4')(x)
         x = layers.BatchNormalization(momentum=0.1, epsilon=0.8, center=1.0, scale=0.02, name='bn_3')(x)
         x = layers.LeakyReLU(0.2, name='leaky_relu_4')(x)

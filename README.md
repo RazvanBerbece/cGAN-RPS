@@ -10,7 +10,7 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 [~] Data Engineering (Data Preparation)
 
-[~] Machine Learning Model Engineering (~~Generator~~, ~~Discriminator~~, ~~Training Step~~, Training, ImageGen, Model Testing)
+[~] Machine Learning Model Engineering (~~Generator~~, ~~Discriminator~~, ~~Training Step~~, ~~Training~~, ImageGen, Model Testing)
 
 [ ] Quality Assurance for Machine Learning Applications
 
@@ -24,12 +24,13 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 # Python
 
 ## Virtual Environment
-The development process should be carried in a virtual environment. When cloning the repository, there will be no virtual environment available, but it can be created & accessed & exit by running the terminal commands below (Unix/macOS) in the root of the project :
+The development process & testing should be carried in a virtual environment. When cloning the repository, there will be no virtual environment available, but it can be created & accessed & exit by running the terminal commands below (Unix/macOS) in the root of the project :
 ```console
 python3 -m venv env
 source env/bin/activate
 deactivate
 ```
+Trying to run 'python main.py' while not in the virtual environment won't work as the pip packages are installed in the virtual environment.
 
 Libraries should be installed for the project while in the virtual environment.
 
