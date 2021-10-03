@@ -4,3 +4,4 @@ assets/.DS_Store
 model/classes/prep/__pycache__/
 model/classes/networks/generator/__pycache__/
 model/classes/networks/discriminator/__pycache__/
+model/classes/networks/train/__pycache__/

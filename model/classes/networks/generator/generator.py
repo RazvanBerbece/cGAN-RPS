@@ -19,10 +19,11 @@ class Generator:
             Generates a class-restricted sample
     """
 
-    """
-        <<Constructor>>
-    """
     def __init__(self):
+        """
+            <<Constructor>>
+        """
+        self.model       = None
         self.input_label = layers.Input(shape=(1,)) # input layer for the label 
         """
             Experiments suggest that the distribution of the noise doesn't matter much, 
@@ -32,15 +33,15 @@ class Generator:
         """
         self.input_noise = layers.Input(shape=(100,)) # input layer for the noise (as in any other GAN)
 
-    """
-        Gets initial output from the label input nodes
-
-        <Params>
-            num_classes      = number of classes (eg: 3 [rock, paper, scissors])
-            embedding_size   = size of embedding (see NLP common practices)
-            num_nodes        = number of nodes for the fully connected Dense layer (ie: '3x3', '4x4', '4x5')
-    """
     def activate_label_input(self, num_classes, embedding_size, num_nodes):
+        """
+            Gets initial output from the label input nodes
+
+            <Params>
+                num_classes      = number of classes (eg: 3 [rock, paper, scissors])
+                embedding_size   = size of embedding (see NLP common practices)
+                num_nodes        = number of nodes for the fully connected Dense layer (ie: '3x3', '4x4', '4x5')
+        """
         # Get node structure from argument
         # TODO: Find out why there is a dependency on the number of nodes for the reshaped layer
         #       1. For merging of the noise matrix output after activations & label output after activations
@@ -53,49 +54,49 @@ class Generator:
         output_label_reshape    = layers.Reshape((self.embedding_row_size, self.embedding_col_size, 1))(output_label_dense)
         return output_label_reshape
 
-    """
-        Gets initial output from the noise vector input nodes
-
-        <Params>
-            num_nodes  = number of nodes for the fully connected Dense layer
-    """
     def activate_noise_input(self, num_nodes):
+        """
+            Gets initial output from the noise vector input nodes
+
+            <Params>
+                num_nodes  = number of nodes for the fully connected Dense layer
+        """
         # Network Layers & Forwarding
         output_noise_dense      = layers.Dense(num_nodes)(self.input_noise)
         output_noise_relu       = layers.ReLU()(output_noise_dense)
         output_noise_reshape    = layers.Reshape((self.embedding_row_size, self.embedding_col_size, num_nodes))(output_noise_relu)
         return output_noise_reshape
     
-    """
-        Loss function for the generator which is used in the training phase
-        The loss is calculated with real targets (eg: 'paper')
-        TODO: Implement dynamic loss function support
-
-        <Params>
-            function    = loss function used for the generator instance
-            label       = 
-            fake_output = 
-    """
     def loss_function(self, function, label, fake_output):
+        """
+            Loss function for the generator which is used in the training phase
+            The loss is calculated with real targets (eg: 'paper')
+            TODO: Implement dynamic loss function support
+
+            <Params>
+                function    = loss function used for the generator instance
+                label       = 
+                fake_output = 
+        """
         if function == 'binary_cross_entropy':
             binary_cross_entropy = tf.keras.losses.BinaryCrossentropy()
             generator_loss = binary_cross_entropy(label, fake_output)
             return generator_loss
 
-    """
-        Gets a Generator ML model
-        Defines the layer architecture using the merged outputs of the label & noise matrixes inputs
-        Currently supports 4 hidden layers
-        TODO: Dynamic number of layers
+    def process_generator_network(self, num_classes, embedding_size, label_num_nodes, noise_num_nodes, generator_initial_num_nodes):
+        """
+            Sets the Generator's ML model
+            Defines the layer architecture using the merged outputs of the label & noise matrixes inputs
+            Currently supports 4 hidden layers
+            TODO: Dynamic number of layers
 
-        <Params>
-            num_classes                 = number of classes (eg: 3 [rock, paper, scissors])
-            embedding_size              = size of embedding (see NLP common practices)
-            label_num_nodes             = number of nodes for the fully connected Dense layer (ie: '3x3', '4x4', '4x5')
-            noise_num_nodes             = number of nodes for the fully connected Dense layer
-            generator_initial_num_nodes = initial number of nodes for the CNN layers (from argument value decrements as num x K, num x (K / 2), ..., num x 1)
-    """
-    def get_generator_network(self, num_classes, embedding_size, label_num_nodes, noise_num_nodes, generator_initial_num_nodes):
+            <Params>
+                num_classes                 = number of classes (eg: 3 [rock, paper, scissors])
+                embedding_size              = size of embedding (see NLP common practices)
+                label_num_nodes             = number of nodes for the fully connected Dense layer (ie: '3x3', '4x4', '4x5')
+                noise_num_nodes             = number of nodes for the fully connected Dense layer
+                generator_initial_num_nodes = initial number of nodes for the CNN layers (from argument value decrements as num x K, num x (K / 2), ..., num x 1)
+        """
         # Merge label + noise output matrices
         initial_label_output    = self.activate_label_input(num_classes, embedding_size, label_num_nodes)
         initial_noise_output    = self.activate_noise_input(noise_num_nodes) # HAS to run AFTER activate_label_input()
@@ -145,6 +146,7 @@ class Generator:
              name='conv_transpose_4')(x)
         x = layers.BatchNormalization(momentum=0.1, epsilon=0.8, center=1.0, scale=0.02, name='bn_4')(x)
         x = layers.ReLU(name='relu_4')(x)
+
         # Output
         output = layers.Conv2DTranspose(\
             3,                          \
@@ -155,6 +157,6 @@ class Generator:
             use_bias=False,             \
             activation='tanh',          \
             name='conv_transpose_6')(x)
-        # Generator Model
-        model = tf.keras.Model([self.input_label, self.input_noise], output)
-        return model
+
+        # Set Generator Model
+        self.model = tf.keras.Model([self.input_label, self.input_noise], output)
