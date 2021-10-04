@@ -143,4 +143,4 @@ class Generator:
             name='conv_transpose_5')(x)
 
         # Set Generator Model
-        self.model = tf.keras.Model([self.input_label, self.input_noise], output)
+        self.model = tf.keras.Model([self.input_noise, self.input_label], output)
