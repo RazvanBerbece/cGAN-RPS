@@ -10,6 +10,12 @@ from model.functions.losses import discriminator_loss_function, generator_loss_f
 from model.classes.networks.discriminator.Discriminator import Discriminator
 from model.classes.networks.generator.Generator import Generator
 
+"""
+    Fix for Issue #5 (Git)
+    Source : https://stackoverflow.com/questions/58352326/running-the-tensorflow-2-0-code-gives-valueerror-tf-function-decorated-functio
+"""
+tf.config.run_functions_eagerly(True)
+
 @tf.function
 def train_step(images, target, latent_size, discriminator_optimizer, generator_optimizer, learning_rate, generator_model: tf.keras.Model, discriminator_model: tf.keras.Model):
     """
@@ -48,6 +54,10 @@ def train_step(images, target, latent_size, discriminator_optimizer, generator_o
 
     ############ TRAIN DISCRIMINATOR WITH FAKE LABELS ############
     with tf.GradientTape() as discriminator_tape_fake_labels:
+
+        print('\n')
+        print(noise, target)
+        print('\n')
 
         generated_images             = generator_model([noise, target], training=True)
         discriminator_fake_output    = discriminator_model([generated_images, target], training=True)
