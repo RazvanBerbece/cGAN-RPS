@@ -44,7 +44,7 @@ pip install tensorflow_datasets
 ## Libs
 1. Tensorflow (& Keras)
 2. sklearn
-3. Python standard libs (numpy, matplotlib, cv2, etc.)
+3. Other commonly-used libs (numpy, matplotlib, cv2, etc.)
 
 Tensorflow and sklearn have to be installed using the commands below :
 ```console

@@ -29,13 +29,13 @@ discriminator_image_shape       = (128, 128, 3)
 discriminator_embedding_size    = 100
 discriminator_initial_num_nodes = 64
 dropout_rate                    = 0.4
-activation                      = 'sigmoid'
+activation                      = 'sigmoid' # 
 # Training Step Params
 discriminator_optimiser         = 'Adam'
 generator_optimiser             = 'Adam'
 # Training Params
-epochs                          = 25
-learning_rate                   = 0.05
+epochs                          = 25 # ~211 sec per epoch (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
+learning_rate                   = 0.5
 
 # Generator Init & Config
 generator = Generator()

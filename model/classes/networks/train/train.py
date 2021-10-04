@@ -22,10 +22,16 @@ import time as time
         discriminator_model         = configured & initialised discriminator model
 """
 def train(dataset, shape, epochs, learning_rate, latent_size, discriminator_optimizer, generator_optimizer, generator_model, discriminator_model):
+    print("\n")
     for epoch in range(epochs):
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print(f"EPOCH {epoch + 1}/{epochs}\n")
         start = time.time()
+        counter = 0
         for image_batch in dataset:
+            print(f"\nTraining on image batch {counter + 1}/{len(list(dataset))}...\n")
+            counter += 1
             img_float32 = tf.cast(image_batch[0], dtype=tf.float32)
             normalized_imgs = normalize(img_float32, shape)
             train_step(normalized_imgs, image_batch[1], latent_size, discriminator_optimizer, generator_optimizer, learning_rate, generator_model, discriminator_model)
-        print('Time for epoch {} is {} sec'.format(epoch + 1, time.time()-start))
+        print('Time for epoch {} is {} sec\n'.format(epoch + 1, time.time()-start))
