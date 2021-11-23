@@ -44,7 +44,7 @@ pip install tensorflow_datasets
 ## Libs
 1. Tensorflow (& Keras)
 2. sklearn
-3. Python standard libs (numpy, matplotlib, cv2, etc.)
+3. Other commonly-used libs (numpy, matplotlib, cv2, etc.)
 
 Tensorflow and sklearn have to be installed using the commands below :
 ```console
@@ -58,3 +58,4 @@ pip install scikit-learn
 3. https://developers.google.com/machine-learning/gan/generator
 4. https://www.tensorflow.org/api_docs/python/tf/
 5. https://stackoverflow.com/questions/
+6. https://towardsdatascience.com/10-lessons-i-learned-training-generative-adversarial-networks-gans-for-a-year-c9071159628

@@ -33,6 +33,7 @@ class Generator:
         """
         self.input_noise = layers.Input(shape=(100,)) # input layer for the noise (as in any other GAN)
 
+    @tf.function
     def activate_label_input(self, num_classes, embedding_size, num_nodes):
         """
             Gets initial output from the label input nodes
@@ -54,6 +55,7 @@ class Generator:
         output_label_reshape    = layers.Reshape((self.embedding_row_size, self.embedding_col_size, 1))(output_label_dense)
         return output_label_reshape
 
+    @tf.function
     def activate_noise_input(self, num_nodes):
         """
             Gets initial output from the noise vector input nodes
@@ -67,6 +69,7 @@ class Generator:
         output_noise_reshape    = layers.Reshape((self.embedding_row_size, self.embedding_col_size, num_nodes))(output_noise_relu)
         return output_noise_reshape
 
+    @tf.function
     def process_generator_network(self, num_classes, embedding_size, label_num_nodes, noise_num_nodes, generator_initial_num_nodes):
         """
             Sets the Generator's ML model
@@ -143,4 +146,4 @@ class Generator:
             name='conv_transpose_5')(x)
 
         # Set Generator Model
-        self.model = tf.keras.Model([self.input_noise, self.input_label], output)
+        self.model = tf.keras.Model([self.input_label, self.input_noise], output)

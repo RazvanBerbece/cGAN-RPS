@@ -8,9 +8,9 @@ from model.classes.networks.discriminator.Discriminator import Discriminator
 from model.classes.networks.train.train import train
 
 # Data Preparation
-seed                            = 512
+seed                            = 345
 batch_size                      = 128
-train_ratio                     = '75%'
+train_ratio                     = '70%'
 dataset = Dataset(dataset='RockPaperScissors', seed=seed, trainRatio=train_ratio, batchSize=batch_size)
 
 # MODELLING CONSTANTS
@@ -20,22 +20,22 @@ training_image_shape            = (128, 128)
 
 # HYPERPARAMETERS
 # Generator Params
-generator_embedding_size        = 100
+generator_embedding_size        = 75
 label_num_nodes                 = '4x4'
 noise_num_nodes                 = 512
 generator_initial_num_nodes     = 64
 # Discriminator Params
 discriminator_image_shape       = (128, 128, 3)
-discriminator_embedding_size    = 100
+discriminator_embedding_size    = 75
 discriminator_initial_num_nodes = 64
-dropout_rate                    = 0.4
-activation                      = 'sigmoid'
+dropout_rate                    = 0.25
+activation                      = 'sigmoid' 
 # Training Step Params
-discriminator_optimiser         = 'Adam'
-generator_optimiser             = 'Adam'
+discriminator_optimiser         = 'Adamax'
+generator_optimiser             = 'Adamax'
 # Training Params
-epochs                          = 25
-learning_rate                   = 0.05
+epochs                          = 25 # ~211 sec per epoch (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
+learning_rate                   = 0.001 # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
 
 # Generator Init & Config
 generator = Generator()
