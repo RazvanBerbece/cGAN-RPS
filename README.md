@@ -58,3 +58,4 @@ pip install scikit-learn
 3. https://developers.google.com/machine-learning/gan/generator
 4. https://www.tensorflow.org/api_docs/python/tf/
 5. https://stackoverflow.com/questions/
+6. https://towardsdatascience.com/10-lessons-i-learned-training-generative-adversarial-networks-gans-for-a-year-c9071159628

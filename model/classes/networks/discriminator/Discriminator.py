@@ -29,6 +29,7 @@ class Discriminator:
         self.input_label = layers.Input(shape=(1,)) # input layer for the label 
         self.input_image = layers.Input(shape=input_image_shape) # input layer for the noise (as in any other GAN)
 
+    @tf.function
     def activate_label_input(self, num_classes, embedding_size):
         """
             Gets initial output from the label input nodes (Discriminator)
@@ -49,7 +50,8 @@ class Discriminator:
             Gets initial output from the image input nodes (Discriminator)
         """
         return self.input_image
-
+        
+    @tf.function
     def process_discriminator_network(self, num_classes, embedding_size, discriminator_initial_num_nodes, dropout_rate, activation):
         """
             Sets the Discriminator's ML model
