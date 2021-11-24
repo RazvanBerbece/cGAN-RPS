@@ -7,7 +7,7 @@ from model.functions.normalize import normalize
 import time as time
 
 @tf.function
-def train(dataset, shape, epochs, learning_rate, latent_size, discriminator_optimizer, generator_optimizer, generator_model, discriminator_model):
+def train(dataset, shape, epochs, learning_rate, add_noise: bool, latent_size, discriminator_optimizer, generator_optimizer, generator_model, discriminator_model):
     """
         Training wrapper function for train_step
         TODO: Could use zip() for passing the arguments (most train_step() arguments) to the function 
@@ -17,6 +17,7 @@ def train(dataset, shape, epochs, learning_rate, latent_size, discriminator_opti
             shape                       = shape of images used in training
             epochs                      = number of epochs for training
             learning_rate               = learning rate
+            add_noise                   = whether to add Gaussian noise to the real & generated images before passing to Discriminator
             latent_size                 = size of the latent vector
             discriminator_optimizer     = optimizer to use for the discriminator training step (eg: 'Adam')
             generator_optimizer         = optimizer to use for the generator training step (eg: 'Adam')
@@ -36,5 +37,5 @@ def train(dataset, shape, epochs, learning_rate, latent_size, discriminator_opti
             counter += 1
             img_float32 = tf.cast(image_batch[0], dtype=tf.float32)
             normalized_imgs = normalize(img_float32, shape)
-            train_step(normalized_imgs, image_batch[1], latent_size, discriminator_optimizer, generator_optimizer, learning_rate, generator_model, discriminator_model)
+            train_step(normalized_imgs, image_batch[1], latent_size, shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise, generator_model, discriminator_model)
         print('Time for epoch {} is {} sec\n'.format(epoch + 1, time.time()-start))

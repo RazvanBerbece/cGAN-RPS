@@ -34,8 +34,10 @@ activation                      = 'sigmoid'
 discriminator_optimiser         = 'Adamax'
 generator_optimiser             = 'Adamax'
 # Training Params
-epochs                          = 25 # ~211 sec per epoch (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
-learning_rate                   = 0.001 # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
+epochs                          = 25        # ~201 sec per epoch (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
+learning_rate                   = 0.001     # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
+beta_min                        = 0.5
+add_noise                       = True      # Adds Gaussian noise to image batch when training
 
 # Generator Init & Config
 generator = Generator()
@@ -61,6 +63,7 @@ train(                                                                      \
     shape=training_image_shape,                                             \
     epochs=epochs,                                                          \
     learning_rate=learning_rate,                                            \
+    add_noise=add_noise,                                                    \
     latent_size=latent_size,                                                \
     discriminator_optimizer=discriminator_optimiser,                        \
     generator_optimizer=generator_optimiser,                                \

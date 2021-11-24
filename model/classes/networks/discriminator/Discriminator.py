@@ -118,7 +118,7 @@ class Discriminator:
         # Flatten
         flattened_x         = layers.Flatten()(x)
         # Dropout
-        dropout_flattened   = layers.Dropout(0.4)(flattened_x)
+        dropout_flattened   = layers.Dropout(dropout_rate)(flattened_x)
         # Output
         dense_dropout       = layers.Dense(1, activation=activation)(dropout_flattened)
 
