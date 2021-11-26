@@ -20,8 +20,13 @@ from model.classes.networks.generator.Generator import Generator
 """
 tf.config.run_functions_eagerly(True)
 
+# Global loss arrays for evaluation purposes
+global_d_loss   = []
+global_d_g_loss = []
+global_epochs   = []
+
 @tf.function
-def train_step(images, target, latent_size, image_shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise: bool, beta_min, generator_model: tf.keras.Model, discriminator_model: tf.keras.Model):
+def train_step(images, target, latent_size, image_shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise: bool, beta_min, generator_model: tf.keras.Model, discriminator_model: tf.keras.Model, epoch):
     """
         Represents a training step (feed-forward + backpropagation & weights updating)
         Normalizes the images
@@ -38,7 +43,11 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
             beta_min                    = beta_1 value used for the optimizers
             generator_model             = configured & initialised generator model
             discriminator_model         = configured & initialised discriminator model
+            epoch                       = current epoch for this training step (purely eval purposes)
     """
+    # Update global epochs array
+    global_epochs.append(epoch)
+
     # Get a random noise vector for the Generator
     noise = tf.random.normal([target.shape[0], latent_size])
 
@@ -58,6 +67,7 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         # (all training images are real, so that's why we use a 1-Tensor)
         real_targets    = tf.ones_like(discriminator_real_output)
         loss            = discriminator_loss_function('binary_cross_entropy', real_targets, discriminator_real_output)
+        global_d_loss.append(loss.numpy())
         print(f'LOSS (DISCRMINATOR [REAL LABELS]) : {loss}')
 
         # Calculate gradient for discriminator training step with real labels
@@ -84,6 +94,7 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         # (all training images are real, so that's why we use a 1-Tensor)   
         fake_targets    = tf.zeros_like(discriminator_fake_output)
         loss            = discriminator_loss_function('binary_cross_entropy', fake_targets, discriminator_fake_output)
+        global_d_g_loss.append(loss.numpy())
         print(f'LOSS (DISCRMINATOR [FAKE LABELS]) : {loss}')
 
         # Calculate gradient for discriminator training step with real labels
@@ -119,8 +130,8 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         generated_image_item = tf.cast(generated_image_item, tf.uint8)
         plt.title(display_label)
         plt.imshow(generated_image_item)
-        plt.savefig('generated/trainingSample.png')
-        # plt.imshow(first_array)
+        plt.savefig('run/generated/trainingSample.png')
+        plt.clf()
 
         # 1-Tensor of the same shape as the discriminator outputs
         # (all training images are real, so that's why we use a 1-Tensor)   
@@ -134,6 +145,9 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         # Optimise parameters
         optimizer       = get_optimizer(generator_optimizer, learning_rate, beta_min)
         optimizer.apply_gradients(zip(gradients, generator_model.trainable_variables))
+    
+    # Return current losses & epoch history
+    return global_d_loss, global_d_g_loss, global_epochs
 
 def get_optimizer(optimizer, learning_rate, beta_min):
     """
@@ -144,7 +158,7 @@ def get_optimizer(optimizer, learning_rate, beta_min):
             learning_rate   = learning rate to configure the optimzier with
     """
     if optimizer == 'Adam':
-        return optimizers.Adam(learning_rate=learning_rate, beta_1=beta_min, beta_2=0.999)
+        return optimizers.Adam(learning_rate=learning_rate, beta_1=beta_min, beta_2=0.9)
     elif optimizer == 'Adamax':
-        return optimizers.Adamax(learning_rate=learning_rate, beta_1=beta_min, beta_2=0.999, epsilon=1e-07)
+        return optimizers.Adamax(learning_rate=learning_rate, beta_1=beta_min, beta_2=0.9, epsilon=1e-05)
         
