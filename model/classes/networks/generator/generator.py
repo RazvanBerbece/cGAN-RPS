@@ -41,7 +41,7 @@ class Generator:
             <Params>
                 num_classes      = number of classes (eg: 3 [rock, paper, scissors])
                 embedding_size   = size of embedding (see NLP common practices)
-                num_nodes        = number of nodes for the fully connected Dense layer (ie: '3x3', '4x4', '4x5')
+                num_nodes        = number of nodes for the fully connected Dense layer (correct values: '4x4' TODO: to be updated with more correct shape values)
         """
         # Get node structure from argument
         # TODO: Find out why there is a dependency on the number of nodes for the reshaped layer
@@ -103,7 +103,7 @@ class Generator:
 
         x = layers.Conv2DTranspose(           \
              generator_initial_num_nodes * 4, \
-             kernel_size=4,                   \
+             kernel_size=3,                   \
              strides=2,                       \
              padding='same',                  \
              kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
@@ -114,7 +114,7 @@ class Generator:
 
         x = layers.Conv2DTranspose(           \
              generator_initial_num_nodes * 2, \
-             kernel_size=4,                   \
+             kernel_size=3,                   \
              strides=2,                       \
              padding='same',                  \
              kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
@@ -125,7 +125,7 @@ class Generator:
 
         x = layers.Conv2DTranspose(           \
              generator_initial_num_nodes,     \
-             kernel_size=4,                   \
+             kernel_size=3,                   \
              strides=2,                       \
              padding='same',                  \
              kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \
@@ -137,7 +137,7 @@ class Generator:
         # Output
         output = layers.Conv2DTranspose(      \
             3,                                \
-            kernel_size=4,                    \
+            kernel_size=3,                    \
             strides=2,                        \
             padding='same',                   \
             kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02), \

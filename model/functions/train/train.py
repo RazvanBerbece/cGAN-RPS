@@ -2,15 +2,15 @@
 
 # Package Imports
 import tensorflow as tf
-from model.classes.networks.train.train_step import train_step
-from model.functions.normalize import normalize
+from model.functions.train.train_step import train_step
+from model.functions.transforms.normalize import normalize
 import time as time
 
 # Evaluation imports
-from model.classes.networks.train.evaluate import evaluate_model_loss
+from model.functions.eval.evaluate import evaluate_model_loss
 
 @tf.function
-def train(dataset, shape, epochs, learning_rate, add_noise: bool, latent_size, beta_min, discriminator_optimizer, generator_optimizer, generator_model, discriminator_model):
+def train(dataset, shape, epochs, learning_rate_d, learning_rate_g, add_noise: bool, latent_size, beta_min, discriminator_optimizer, generator_optimizer, generator_model, discriminator_model):
     """
         Training wrapper function for train_step
         TODO: Could use zip() for passing the arguments (most train_step() arguments) to the function 
@@ -19,7 +19,8 @@ def train(dataset, shape, epochs, learning_rate, add_noise: bool, latent_size, b
             dataset                     = dataset to train models on
             shape                       = shape of images used in training
             epochs                      = number of epochs for training
-            learning_rate               = learning rate
+            learning_rate_d             = learning rate for discriminator gradient
+            learning_rate_g             = learning rate for generator gradient
             add_noise                   = whether to add Gaussian noise to the real & generated images before passing to Discriminator
             latent_size                 = size of the latent vector
             beta_min                    = beta_1 for optimizer used in updating network weights (applying gradients)
@@ -34,6 +35,7 @@ def train(dataset, shape, epochs, learning_rate, add_noise: bool, latent_size, b
     epochs_for_eval     = []
     losses_d_for_eval   = []
     losses_d_g_for_eval = []
+    losses_g_for_eval   = []
 
     for epoch in range(epochs):
 
@@ -47,6 +49,7 @@ def train(dataset, shape, epochs, learning_rate, add_noise: bool, latent_size, b
         # Eval variables
         epoch_wide_loss_d         = 0
         epoch_wide_loss_d_g       = 0
+        epoch_wide_loss_g         = 0
         epoch_wide_losses_counter = 0
 
         # Train on each batch of given size in the dataset
@@ -60,18 +63,20 @@ def train(dataset, shape, epochs, learning_rate, add_noise: bool, latent_size, b
             img_float32 = tf.cast(image_batch[0], dtype=tf.float32)
             normalized_imgs = normalize(img_float32, shape)
 
-            d_loss, d_g_loss = train_step(normalized_imgs, image_batch[1], latent_size, shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise, beta_min, generator_model, discriminator_model)
+            d_loss, d_g_loss, g_loss = train_step(normalized_imgs, image_batch[1], latent_size, shape, discriminator_optimizer, generator_optimizer, learning_rate_d, learning_rate_g, add_noise, beta_min, generator_model, discriminator_model)
 
             # Calculate total error per epoch for all batches
             epoch_wide_loss_d = epoch_wide_loss_d + d_loss
             epoch_wide_loss_d_g = epoch_wide_loss_d_g + d_g_loss
+            epoch_wide_loss_g = epoch_wide_loss_g + g_loss
             epoch_wide_losses_counter = epoch_wide_losses_counter + 1
         
         # Append average loss of batches to the globals
         losses_d_for_eval.append(epoch_wide_loss_d / epoch_wide_losses_counter)
         losses_d_g_for_eval.append(epoch_wide_loss_d_g / epoch_wide_losses_counter)
+        losses_g_for_eval.append(epoch_wide_loss_g / epoch_wide_losses_counter)
 
         # Plot losses
-        evaluate_model_loss(losses_d_for_eval, losses_d_g_for_eval, epochs_for_eval)
+        evaluate_model_loss(losses_d_for_eval, losses_d_g_for_eval, losses_g_for_eval, epochs_for_eval)
 
         print('Time for epoch {} is {} sec\n'.format(epoch + 1, time.time()-start))

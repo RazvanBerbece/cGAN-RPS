@@ -52,7 +52,7 @@ class Discriminator:
         return self.input_image
         
     @tf.function
-    def process_discriminator_network(self, num_classes, embedding_size, discriminator_initial_num_nodes, dropout_rate, activation):
+    def process_discriminator_network(self, num_classes, embedding_size, discriminator_initial_num_nodes, dropout_rate):
         """
             Sets the Discriminator's ML model
             Defines the layer architecture using the merged outputs of the label & image vector inputs
@@ -84,7 +84,7 @@ class Discriminator:
 
         x = layers.Conv2D(                                                                  \
              discriminator_initial_num_nodes * 2,                                           \
-             kernel_size=4,                                                                 \
+             kernel_size=3,                                                                 \
              strides=2,                                                                     \
              padding='same',                                                                \
              kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02),  \
@@ -95,7 +95,7 @@ class Discriminator:
 
         x = layers.Conv2D(                                                                  \
              discriminator_initial_num_nodes * 4,                                           \
-             kernel_size=4,                                                                 \
+             kernel_size=3,                                                                 \
              strides=2,                                                                     \
              padding='same',                                                                \
              kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02),  \
@@ -106,7 +106,7 @@ class Discriminator:
 
         x = layers.Conv2D(                                                                  \
              discriminator_initial_num_nodes * 8,                                           \
-             kernel_size=4,                                                                 \
+             kernel_size=3,                                                                 \
              strides=2,                                                                     \
              padding='same',                                                                \
              kernel_initializer=tf.keras.initializers.RandomNormal(mean=0.0, stddev=0.02),  \
@@ -120,7 +120,7 @@ class Discriminator:
         # Dropout
         dropout_flattened   = layers.Dropout(dropout_rate)(flattened_x)
         # Output
-        dense_dropout       = layers.Dense(1, activation=activation)(dropout_flattened)
+        dense_dropout       = layers.Dense(1, activation="sigmoid")(dropout_flattened)
 
         # Set Discriminator Model
         self.model = tf.keras.Model([initial_image_output, self.input_label], dense_dropout)
