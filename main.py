@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 # Package Imports
-import os
 from model.classes.prep.Dataset import Dataset
 from model.classes.networks.generator.Generator import Generator
 from model.classes.networks.discriminator.Discriminator import Discriminator
@@ -9,8 +8,8 @@ from model.classes.networks.train.train import train
 
 # Data Preparation
 seed                            = 345
-batch_size                      = 128
-train_ratio                     = '10%'
+batch_size                      = 256
+train_ratio                     = '60%'
 dataset = Dataset(dataset='RockPaperScissors', seed=seed, trainRatio=train_ratio, batchSize=batch_size)
 
 # MODELLING CONSTANTS
@@ -22,20 +21,20 @@ training_image_shape            = (128, 128)
 # Generator Params
 generator_embedding_size        = 75
 label_num_nodes                 = '4x4'
-noise_num_nodes                 = 258
+noise_num_nodes                 = 512
 generator_initial_num_nodes     = 64
 # Discriminator Params
 discriminator_image_shape       = (128, 128, 3)
 discriminator_embedding_size    = 75
-discriminator_initial_num_nodes = 32
+discriminator_initial_num_nodes = 64 
 dropout_rate                    = 0.4
 activation                      = 'sigmoid' 
 # Training Step Params
 discriminator_optimiser         = 'Adamax'
 generator_optimiser             = 'Adamax'
 # Training Params
-epochs                          = 5          # ~201 sec per epoch (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
-learning_rate                   = 0.0002     # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
+epochs                          = 15         # ~201 sec per epoch (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
+learning_rate                   = 0.00075    # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
 beta_min                        = 0.5
 add_noise                       = True       # Adds Gaussian noise to image batch when training
 
