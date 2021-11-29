@@ -29,18 +29,49 @@ def train(dataset, shape, epochs, learning_rate, add_noise: bool, latent_size, b
             discriminator_model         = configured & initialised discriminator model
     """
     print("\n")
+
+    # Loss history for evaluation
+    epochs_for_eval     = []
+    losses_d_for_eval   = []
+    losses_d_g_for_eval = []
+
     for epoch in range(epochs):
+
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print(f"EPOCH {epoch + 1}/{epochs}\n")
+
         start = time.time()
+        epochs_for_eval.append(epoch + 1)
         counter = 0
+
+        # Eval variables
+        epoch_wide_loss_d         = 0
+        epoch_wide_loss_d_g       = 0
+        epoch_wide_losses_counter = 0
+
+        # Train on each batch of given size in the dataset
         for image_batch in dataset:
-            # Index 0 of batch ~> Vector of images (128, 300, 300, 3)
-            # Index 1 of batch ~> Vector of targets (128,) {ie: 0 = ROCK, 1 = PAPER, 2 = SCISSORS}
+
             print(f"\n~~~ PROCESSING BATCH {counter + 1}/{len(list(dataset))}... ~~~\n")
             counter += 1
+
+            # Index 0 of batch ~> Vector of images (128, 300, 300, 3)
+            # Index 1 of batch ~> Vector of targets (128,) {ie: 0 = ROCK, 1 = PAPER, 2 = SCISSORS}
             img_float32 = tf.cast(image_batch[0], dtype=tf.float32)
             normalized_imgs = normalize(img_float32, shape)
-            d_loss, d_g_loss, epochs = train_step(normalized_imgs, image_batch[1], latent_size, shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise, beta_min, generator_model, discriminator_model, epoch+1)
-        evaluate_model_loss(d_loss, d_g_loss, epochs)
+
+            d_loss, d_g_loss = train_step(normalized_imgs, image_batch[1], latent_size, shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise, beta_min, generator_model, discriminator_model)
+
+            # Calculate total error per epoch for all batches
+            epoch_wide_loss_d = epoch_wide_loss_d + d_loss
+            epoch_wide_loss_d_g = epoch_wide_loss_d_g + d_g_loss
+            epoch_wide_losses_counter = epoch_wide_losses_counter + 1
+        
+        # Append average loss of batches to the globals
+        losses_d_for_eval.append(epoch_wide_loss_d / epoch_wide_losses_counter)
+        losses_d_g_for_eval.append(epoch_wide_loss_d_g / epoch_wide_losses_counter)
+
+        # Plot losses
+        evaluate_model_loss(losses_d_for_eval, losses_d_g_for_eval, epochs_for_eval)
+
         print('Time for epoch {} is {} sec\n'.format(epoch + 1, time.time()-start))

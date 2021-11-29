@@ -20,13 +20,8 @@ from model.classes.networks.generator.Generator import Generator
 """
 tf.config.run_functions_eagerly(True)
 
-# Global loss arrays for evaluation purposes
-global_d_loss   = []
-global_d_g_loss = []
-global_epochs   = []
-
 @tf.function
-def train_step(images, target, latent_size, image_shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise: bool, beta_min, generator_model: tf.keras.Model, discriminator_model: tf.keras.Model, epoch):
+def train_step(images, target, latent_size, image_shape, discriminator_optimizer, generator_optimizer, learning_rate, add_noise: bool, beta_min, generator_model: tf.keras.Model, discriminator_model: tf.keras.Model):
     """
         Represents a training step (feed-forward + backpropagation & weights updating)
         Normalizes the images
@@ -43,13 +38,13 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
             beta_min                    = beta_1 value used for the optimizers
             generator_model             = configured & initialised generator model
             discriminator_model         = configured & initialised discriminator model
-            epoch                       = current epoch for this training step (purely eval purposes)
     """
-    # Update global epochs array
-    global_epochs.append(epoch)
+    # Loss variables to use for evaluation
+    d_loss      = None
+    d_g_loss    = None
 
     # Get a random noise vector for the Generator
-    noise = tf.random.normal([target.shape[0], latent_size])
+    noise       = tf.random.normal([target.shape[0], latent_size])
 
     ############ TRAIN DISCRIMINATOR WITH REAL LABELS ############
     with tf.GradientTape() as discriminator_tape_real_labels:
@@ -67,8 +62,8 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         # (all training images are real, so that's why we use a 1-Tensor)
         real_targets    = tf.ones_like(discriminator_real_output)
         loss            = discriminator_loss_function('binary_cross_entropy', real_targets, discriminator_real_output)
-        global_d_loss.append(loss.numpy())
-        print(f'LOSS (DISCRMINATOR [REAL LABELS]) : {loss}')
+        d_loss = loss.numpy()
+        print(f'd_loss : {loss}')
 
         # Calculate gradient for discriminator training step with real labels
         gradients       = discriminator_tape_real_labels.gradient(loss, discriminator_model.trainable_variables)
@@ -94,8 +89,8 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         # (all training images are real, so that's why we use a 1-Tensor)   
         fake_targets    = tf.zeros_like(discriminator_fake_output)
         loss            = discriminator_loss_function('binary_cross_entropy', fake_targets, discriminator_fake_output)
-        global_d_g_loss.append(loss.numpy())
-        print(f'LOSS (DISCRMINATOR [FAKE LABELS]) : {loss}')
+        d_g_loss = loss.numpy()
+        print(f'd_g_loss : {loss}')
 
         # Calculate gradient for discriminator training step with real labels
         gradients       = discriminator_tape_fake_labels.gradient(loss, discriminator_model.trainable_variables)
@@ -130,14 +125,15 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         generated_image_item = tf.cast(generated_image_item, tf.uint8)
         plt.title(display_label)
         plt.imshow(generated_image_item)
-        plt.savefig('run/generated/trainingSample.png')
+        plt.savefig("temp/generated/trainingSample.png")
+        # Clear plt figure (so eval can use it)
         plt.clf()
 
         # 1-Tensor of the same shape as the discriminator outputs
         # (all training images are real, so that's why we use a 1-Tensor)   
         real_targets    = tf.ones_like(discriminator_fake_output)
         loss            = generator_loss_function('binary_cross_entropy', real_targets, discriminator_fake_output)
-        print(f'LOSS (GENERATOR [REAL LABELS]) : {loss}')
+        print(f'g_loss : {loss}')
     
         # Calculate gradient for discriminator training step with real labels
         gradients       = generator_tape.gradient(loss, generator_model.trainable_variables)
@@ -147,7 +143,7 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
         optimizer.apply_gradients(zip(gradients, generator_model.trainable_variables))
     
     # Return current losses & epoch history
-    return global_d_loss, global_d_g_loss, global_epochs
+    return d_loss, d_g_loss
 
 def get_optimizer(optimizer, learning_rate, beta_min):
     """
