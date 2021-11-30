@@ -1,26 +1,28 @@
 Tests ran on seed 345, on 60% train ratio and a batch size of 256.
 
-# RESULTS OF TRAINING cGAN ON 15 EPOCHS WITH THE FOLLOWING PARAMETERISATION
+# 15 EPOCHS
 
-| Hyperparam Test Run   |   #1   |   #2   |
-| :---------            | :-:    | :-:    |
-| D Embedding Size      | 5      |   ?    |
-| G Embedding Size      | 5      |   ?    |
-| D Initial Nodes       | 64     |   ?    |
-| G Initial Nodes       | 64     |   ?    |
-| Learning Rate D       | 0.01   |   ?    |
-| Learning Rate G       | 0.001  |   ?    |
-| D Optimiser           | Adamax |   ?    | 
-| G Optimiser           | Adamax |   ?    |
-| Add Noise             | True   |   ?    |
-| Optimiser Beta Min    | 0.5    |   ?    |
-| D Dropout Rate        | 0.4    |   ?    |
-| Optimiser Beta Min    | 0.5    |   ?    |
-| TRAINING TIME/EPOCH   | ~145s  |   ?    |
-| TOTAL TRAINING TIME   | ~2175s |   ?    |
-| AVG. LOSS D           | 57.47  |   ?    |
-| AVG. LOSS D_G         | 8.16   |   ?    |
-| AVG. LOSS G           | 141.80 |   ?    |
+# RESULTS PER ATTEMPT WITH THE FOLLOWING PARAMETERISATIONS
+
+| Hyperparam Test Run   |   #1      |   #2         |
+| :---------            | :-:       | :-:          |
+| D Embedding Size      | 5         |   5          |
+| G Embedding Size      | 5         |   5          |
+| D Initial Nodes       | 64        |   64         |
+| G Initial Nodes       | 64        |   128        |
+| Learning Rate D       | 0.01      |   0.00075    |
+| Learning Rate G       | 0.001     |   0.00075    |
+| D Optimiser           | Adamax    |   Adamax     | 
+| G Optimiser           | Adamax    |   Adamax     |
+| Add Noise             | True      |   True       |
+| Optimiser Beta Min    | 0.5       |    0.5       |
+| D Dropout Rate        | 0.2       |   0.2        |
+| Optimiser Beta Min    | 0.5       |   0.5        |
+| TRAINING TIME/EPOCH   | ~2.5min   |   ~4.8min    |
+| TOTAL TRAINING TIME   | ~36.25min |   ~56.5min   |
+| AVG. LOSS D           | 57.47     |   0.005016   |
+| AVG. LOSS D_G         | 8.16      |   7.84       |
+| AVG. LOSS G           | 141.80    |   0.47       |
 
 # Loss Plots & Last Generated Image
 
@@ -29,3 +31,5 @@ Tests ran on seed 345, on 60% train ratio and a batch size of 256.
 ![Last Generated Image](img/1/trainingSample.png "Last Generated Image")
 
 ## Test Run 2
+![Models Loss Plot](img/2/evaluation.png "Models Loss Plot")
+![Last Generated Image](img/2/trainingSample.png "Last Generated Image")
