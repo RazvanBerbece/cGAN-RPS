@@ -36,7 +36,8 @@ def train(dataset, shape, epochs, learning_rate_d, learning_rate_g, add_noise: b
     losses_d_for_eval   = []
     losses_d_g_for_eval = []
     losses_g_for_eval   = []
-
+    
+    start_total = time.time()
     for epoch in range(epochs):
 
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -80,3 +81,5 @@ def train(dataset, shape, epochs, learning_rate_d, learning_rate_g, add_noise: b
         evaluate_model_loss(losses_d_for_eval, losses_d_g_for_eval, losses_g_for_eval, epochs_for_eval)
 
         print('Time for epoch {} is {} sec\n'.format(epoch + 1, time.time()-start))
+
+    print('Total time for training {} epochs is {} sec\n'.format(epochs, time.time()-start_total))
