@@ -27,9 +27,9 @@ Tests ran on seed 345, on 60% train ratio and a batch size of 256.
 # Loss Plots & Last Generated Image
 
 ## Test Run 1
-![Models Loss Plot](img/1/evaluation.png "Models Loss Plot")
-![Last Generated Image](img/1/trainingSample.png "Last Generated Image")
+![Models Loss Plot](img/15_epochs/1/evaluation.png "Models Loss Plot")
+![Last Generated Image](img/15_epochs/1/trainingSample.png "Last Generated Image")
 
 ## Test Run 2
-![Models Loss Plot](img/2/evaluation.png "Models Loss Plot")
-![Last Generated Image](img/2/trainingSample.png "Last Generated Image")
+![Models Loss Plot](img/15_epochs/2/evaluation.png "Models Loss Plot")
+![Last Generated Image](img/15_epochs/2/trainingSample.png "Last Generated Image")
