@@ -10,11 +10,11 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 [~] Data Engineering (Data Preparation)
 
-[~] Machine Learning Model Engineering (~~Generator~~, ~~Discriminator~~, ~~Training Step~~, ~~Training~~, ImageGen, Model Testing)
+[~] Machine Learning Model Engineering (~~Generator~~, ~~Discriminator~~, ~~Training Step~~, ~~Training~~, ~~ImageGen~~, Model Testing)
 
 [ ] Quality Assurance for Machine Learning Applications
 
-[~] Deployment
+[~] Deployment (~~ImageGen API~~, Server, CI/CD)
 
 [ ] Monitoring and Maintenance
 

@@ -3,15 +3,13 @@
 # Package Imports
 import tensorflow as tf
 import numpy as np
-from matplotlib import pyplot as plt
-from model.classes.networks.generator.Generator import Generator
 
 class ImageGenerator:
     """
         Class that handles image generation using the trained cGAN model
     """
 
-    def __init__(self, model: Generator):
+    def __init__(self, model):
         self.model = model
     
     def generate_image(self, target: str):
@@ -44,8 +42,4 @@ class ImageGenerator:
         generated_image_item = 255 * generated_image_item
         generated_image_item = tf.cast(generated_image_item, tf.uint8)
 
-        plt.title(target)
-        plt.imshow(generated_image_item)
-        plt.show()
-        # Clear plt figure (so eval can use it)
-        plt.clf()
+        return generated_image_item
