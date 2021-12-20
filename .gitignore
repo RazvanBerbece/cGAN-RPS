@@ -7,3 +7,5 @@ model/classes/networks/discriminator/__pycache__/
 model/classes/networks/train/__pycache__/
 model/functions/__pycache__/
 model/classes/api/image_gen/__pycache__
+server/__pycache__
+server/classes/api/image_gen/__pycache__

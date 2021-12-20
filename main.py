@@ -70,6 +70,3 @@ train(                                                                      \
     generator_model=generator.model,                                        \
     discriminator_model=discriminator.model                                 \
 )
-
-# Generate Image Using Trained cGAN model
-# TODO
