@@ -83,3 +83,7 @@ def train(dataset, shape, epochs, learning_rate_d, learning_rate_g, add_noise: b
         print('Time for epoch {} is {} sec\n'.format(epoch + 1, time.time()-start))
 
     print('Total time for training {} epochs is {} sec\n'.format(epochs, time.time()-start_total))
+
+    # Store models
+    generator_model.save('trained_models/generator')
+    discriminator_model.save('trained_models/discriminator')
