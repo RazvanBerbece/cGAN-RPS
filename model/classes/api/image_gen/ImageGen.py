@@ -2,8 +2,9 @@
 
 # Package Imports
 import tensorflow as tf
+import numpy as np
+from matplotlib import pyplot as plt
 from model.classes.networks.generator.Generator import Generator
-from model.classes.networks.discriminator.Discriminator import Discriminator
 
 class ImageGenerator:
     """
@@ -13,6 +14,38 @@ class ImageGenerator:
     def __init__(self, model: Generator):
         self.model = model
     
-    def generate_image(self, noise, num_classes):
-        pass
-    
+    def generate_image(self, target: str):
+        """
+            Generate 1 image using the Generator model G in self.model with a given target
+
+            <Params>
+                target = a str with the target of the generator (sanitised before being passed, eg: 'rock')
+        """
+
+        # Get numerical index for str target argument
+        numerical_target = -1
+        if target == 'rock':
+            numerical_target = 0
+        elif target == 'paper':
+            numerical_target = 1
+        else:
+            numerical_target = 2
+        np_target = np.array([[numerical_target]]) # shape (1,)
+
+        # Get a random noise vector to pass to the Generator
+        latent_size = 100 # TODO: Figure out how to remove dependency of latent_size on generator API run
+        noise = tf.random.normal([np_target.shape[0], latent_size])
+
+        # Run a feedforward of the noise + target concat through G
+        generated_images = self.model.model([np_target, noise], training=False)
+
+        # Bring to normal format (colour, size, etc)
+        generated_image_item = generated_images[0]
+        generated_image_item = 255 * generated_image_item
+        generated_image_item = tf.cast(generated_image_item, tf.uint8)
+
+        plt.title(target)
+        plt.imshow(generated_image_item)
+        plt.show()
+        # Clear plt figure (so eval can use it)
+        plt.clf()
