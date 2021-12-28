@@ -8,6 +8,10 @@ from tensorflow import keras
 
 app = Flask(__name__)
 
+# Server Config Constants (used for app.run(...))
+HOST = 'localhost'
+PORT = 3030
+
 ### API V1 Routes ###
 @app.route('/api/v1/')
 def api_v1_access_test():
@@ -89,9 +93,5 @@ def api_v1_generate():
             }
 
 ### App Run ###
-
-HOST = 'localhost'
-PORT = 3030
-
 if __name__ == '__main__':
       app.run(host=HOST, port=PORT)
