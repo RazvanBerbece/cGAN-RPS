@@ -25,8 +25,8 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Automated-Testing
-        run: echo Running tests ...
+      - name: Testing Process
+        run: echo Running test harness ...
 
       # Runs a set of commands using the runners shell
       # - name: Run a multi-line script
