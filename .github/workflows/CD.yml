@@ -36,7 +36,7 @@ jobs:
         env:
           HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
         run: |
-          heroku login,
+          heroku auth:login,
           docker ps,
           heroku container:login
 
