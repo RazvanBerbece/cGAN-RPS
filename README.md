@@ -65,10 +65,11 @@ TODO: There is a test harness which tests the behaviour of the ImageGen API. Add
 3. Flask (for deployment purposes)
 4. Other commonly-used libs (numpy, matplotlib, cv2, etc.)
 
-Tensorflow and sklearn have to be installed using the commands below :
+Tensorflow, sklearn and Flask (if neccessary) have to be installed (in the virtual environment) using the commands below :
 ```console
 pip install --upgrade tensorflow
 pip install scikit-learn
+pip install Flask
 ```
 
 # Resources
