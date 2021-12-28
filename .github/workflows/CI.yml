@@ -24,13 +24,16 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Testing Process
-        run: echo Running test harness ...
+      # Install the required libs to run the API test harness & run harness
+      - name: IMAGEGEN-API-TEST-HARNESS
+        run: |
+          # pip install
+          # create & activate venv
+          python server/classes/api/image_gen/test/test_ImageGen.py
 
-      # Runs a set of commands using the runners shell
-      # - name: Run a multi-line script
-        # run: |
-          # echo Add other actions to build,
-          # echo test, and deploy your project.
-
+      # Install the required libs to run the server test harness & run harness
+      - name: SERVER-INTEGRATION-TEST-HARNESS
+        run: |
+          # pip install
+          # create & activate venv
+          python server/test/test_server.py
