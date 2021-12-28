@@ -24,6 +24,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
+      # Install the required libs to deploy the app
+      - name: DEPLOY-BUILD-IMPORTS-VENV
+        run: |
+          pip install -r requirements.txt
+          # python3 -m venv env
+
+      # Run the deployment commands for the Docker container with the app
       - name: Deployment Process
         run: echo Deploying to Heroku ...

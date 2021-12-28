@@ -24,16 +24,19 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Install the required libs to run the API test harness & run harness
+      # Install the required libs to run the test harnesses 
+      - name: SERVER-BUILD-IMPORTS-VENV
+        run: |
+          pip install -r requirements.txt
+          python3 -m venv env
+          source env/bin/activate
+
+      # Run the API test harness
       - name: IMAGEGEN-API-TEST-HARNESS
         run: |
-          # pip install
-          # create & activate venv
           python server/classes/api/image_gen/test/test_ImageGen.py
 
-      # Install the required libs to run the server test harness & run harness
+      # Run the server test harness
       - name: SERVER-INTEGRATION-TEST-HARNESS
         run: |
-          # pip install
-          # create & activate venv
           python server/test/test_server.py
