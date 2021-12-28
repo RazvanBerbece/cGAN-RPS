@@ -3,10 +3,12 @@ Flask server application which listens for incoming requests and returns respons
 
 # CI/CD
 CI/CD is implemented through GitHub Actions and automates testing the app & deploying to Heroku.
+
 The app is containerized in a Docker image and it will be deployed using the Heroku Container Registry.
 
 ## Progress
 [ ] CI (test harness, job step) 
+
 [ ] CD (Heroku config, Docker image, job step) 
 
 ## CI

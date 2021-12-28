@@ -50,10 +50,20 @@ The dataset comes from the default tensorflow_datasets package. It needs to be i
 pip install tensorflow_datasets
 ```
 
+## Testing & Deployment
+The trained model can be used through the ImageGen API for generating photos of hands similar to the ones used in the training phase.
+
+A Flask server was created that incorporates the ImageGen API which accepts REST requests and returns data (eg: a base64 encoded image of a hand depicting RPS shapes)
+
+The Flask server deployment is automated using GitHub Actions and is deployed to Heroku.
+
+TODO: There is a test harness which tests the behaviour of the ImageGen API. Additionally, it handles integration testing in order to test the behaviour of the server.
+
 ## Libs
 1. Tensorflow (& Keras)
 2. sklearn
-3. Other commonly-used libs (numpy, matplotlib, cv2, etc.)
+3. Flask (for deployment purposes)
+4. Other commonly-used libs (numpy, matplotlib, cv2, etc.)
 
 Tensorflow and sklearn have to be installed using the commands below :
 ```console
