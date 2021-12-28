@@ -36,9 +36,9 @@ jobs:
         env:
           HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
         run: |
-        heroku login,
-        docker ps,
-        heroku container:login
+          heroku login,
+          docker ps,
+          heroku container:login
 
       # Build app on the heroku Container Registry as prep for actual deployment
       - name: HEROKU-APP-BUILD-CONTAINER-REGISTRY
