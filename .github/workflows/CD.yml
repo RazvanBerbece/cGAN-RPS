@@ -28,8 +28,24 @@ jobs:
       - name: DEPLOY-BUILD-IMPORTS-VENV
         run: |
           pip install -r requirements.txt
-          # python3 -m venv env
+          python3 -m venv env
+          source env/bin/activate
 
-      # Run the deployment commands for the Docker container with the app
-      - name: Deployment Process
-        run: echo Deploying to Heroku ...
+      # Login on the heroku Container Registry as prep for actual deployment
+      - name: HEROKU-LOGIN-CONTAINER-REGISTRY
+        env:
+          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
+        run: heroku container:login
+
+      # Build app on the heroku Container Registry as prep for actual deployment
+      - name: HEROKU-APP-BUILD-CONTAINER-REGISTRY
+        env:
+          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
+        run: echo Building app...
+      
+      # Deploy to Heroku Container Regitry
+      - name: HEROKU-APP-DEPLOY-CONTAINER-REGISTRY
+        env:
+          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
+        run: echo Deploying app...
+
