@@ -1,6 +1,6 @@
 # Workflow to automate CD
 
-name: CI
+name: CD
 
 # Controls when the workflow will run
 on:
