@@ -34,7 +34,7 @@ jobs:
       # Login on the heroku Container Registry as prep for actual deployment
       - name: HEROKU-LOGIN-CONTAINER-REGISTRY
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
         run: |
           heroku auth:login
           docker ps
@@ -43,12 +43,12 @@ jobs:
       # Build app on the heroku Container Registry as prep for actual deployment
       - name: HEROKU-APP-BUILD-CONTAINER-REGISTRY
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
         run: echo Building app...
       
       # Deploy to Heroku Container Regitry
       - name: HEROKU-APP-DEPLOY-CONTAINER-REGISTRY
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
         run: echo Deploying app...
 
