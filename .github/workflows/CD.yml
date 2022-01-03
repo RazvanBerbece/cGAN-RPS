@@ -18,6 +18,8 @@ jobs:
   deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./server
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -27,7 +29,7 @@ jobs:
       # Install the required libs to deploy the app
       - name: DEPLOY-BUILD-IMPORTS-VENV
         run: |
-          pip install -r requirements.txt
+          pip install -r server/requirements.txt
           python3 -m venv env
           source env/bin/activate
 
@@ -39,16 +41,18 @@ jobs:
           heroku auth:login
           docker ps
           heroku container:login
+        working-directory: ${{ env.working-directory }}
 
       # Build app on the heroku Container Registry as prep for actual deployment
       - name: HEROKU-APP-BUILD-CONTAINER-REGISTRY
         env:
           HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
         run: echo Building app...
+        working-directory: ${{ env.working-directory }}
       
       # Deploy to Heroku Container Regitry
       - name: HEROKU-APP-DEPLOY-CONTAINER-REGISTRY
         env:
           HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
         run: echo Deploying app...
-
+        working-directory: ${{ env.working-directory }}

@@ -27,7 +27,7 @@ jobs:
       # Install the required libs to run the test harnesses 
       - name: SERVER-BUILD-IMPORTS-VENV
         run: |
-          pip install -r requirements.txt
+          pip install -r server/requirements.txt
           python3 -m venv env
           source env/bin/activate
 
