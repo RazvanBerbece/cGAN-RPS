@@ -4,13 +4,13 @@ from flask import Flask
 from flask import request
 from classes.api.image_gen.ImageGen import ImageGenerator
 import datetime
-from tensorflow import keras
+# from tensorflow import keras
 
 app = Flask(__name__)
 
 # Server Config Constants (used for app.run(...))
-HOST = 'localhost'
-PORT = 8080
+HOST = '0.0.0.0'
+PORT = 5050
 
 ### API V1 Routes ###
 @app.route('/api/v1/')
@@ -94,4 +94,4 @@ def api_v1_generate():
 
 ### App Run ###
 if __name__ == '__main__':
-      app.run(debug=True)
+      app.run(host=HOST, port=PORT)

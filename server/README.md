@@ -16,3 +16,12 @@ The continuous integration workflow can be found in .github/workflows/CI.yml and
 
 ## CD
 The continuous deployment workflow can be found in .github/workflows/CD.yml and runs the deployment commands to deploy the app to Heroku.
+
+## Docker
+To manually run the Docker app, run these commands in the ./server folder :
+
+1. docker build --tag cgan-rps-docker .
+2. docker images 
+3. docker run -d -p 5050:5050 cgan-rps-docker
+4. docker ps
+5. docker stop <app_id_from_step_4>
