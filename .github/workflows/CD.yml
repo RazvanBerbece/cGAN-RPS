@@ -23,12 +23,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.0.0
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "cgan-rps"
-          heroku_email: "sc19rab@leeds.ac.uk"
-          usedocker: true
 
       # Install the required libs to deploy the app
       - name: DEPLOY-BUILD-IMPORTS-VENV
@@ -42,8 +36,8 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          heroku auth:login,
-          docker ps,
+          heroku auth:login
+          docker ps
           heroku container:login
 
       # Build app on the heroku Container Registry as prep for actual deployment
