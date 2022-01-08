@@ -5,7 +5,8 @@ from flask import Flask
 from flask import request
 from classes.api.image_gen.ImageGen import ImageGenerator
 import datetime
-# from tensorflow import keras
+from os import environ # Get access to environment variables
+from tensorflow import keras
 
 app = Flask(__name__)
 
@@ -24,7 +25,7 @@ def api_v1_access_test():
         'data': {
             'image_data': {},
             'text_data': {
-                'value': 'Server listening on port 3030 !',
+                'value': f'Server listening on port {environ.get("PORT", 5050)} !',
             }
         }
     }
@@ -94,5 +95,4 @@ def api_v1_generate():
 
 ### App Run ###
 if __name__ == '__main__':
-      from os import environ # Get access to environment variables
       app.run(debug=False, host=HOST, port=environ.get("PORT", 5050))

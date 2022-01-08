@@ -9,7 +9,7 @@ The app is containerized in a Docker image and it will be deployed using the Her
 ## Progress
 [ ] CI (test harness, ~~job step~~) 
 
-[ ] CD (~~Heroku config~~, ~~Docker image~~, job step) 
+[x] CD (~~Heroku config~~, ~~Docker image~~, ~~job step~~) 
 
 ## CI
 The continuous integration workflow can be found in .github/workflows/CI.yml and runs the test harness.
@@ -18,10 +18,12 @@ The continuous integration workflow can be found in .github/workflows/CI.yml and
 The continuous deployment workflow can be found in .github/workflows/CD.yml and runs the deployment commands to deploy the app to Heroku.
 
 ## Docker
-To manually run the Docker app, run these commands in the ./server folder :
+Docker needs to be installed on the machine where the Flask app will be run.
+To manually run the Docker app, run these commands in root repository folder :
 
 1. docker build --tag cgan-rps-docker .
 2. docker images 
 3. docker run -d -p 5050:5050 cgan-rps-docker
 4. docker ps
 5. docker stop <app_id_from_step_4>
+6. docker system prune
