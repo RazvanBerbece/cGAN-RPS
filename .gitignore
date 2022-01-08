@@ -11,3 +11,4 @@ server/__pycache__/
 server/classes/api/image_gen/__pycache__/
 server/classes/api/image_gen/test/__pycache__/
 server/test/__pycache__/
+locals.txt

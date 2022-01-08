@@ -25,18 +25,18 @@ jobs:
       - uses: actions/checkout@v2
 
       # Install the required libs to run the test harnesses 
-      - name: SERVER-BUILD-IMPORTS-VENV
+      - name: Build Flask Server
         run: |
           pip install -r requirements.txt
           python3 -m venv env
           source env/bin/activate
 
       # Run the API test harness
-      - name: IMAGEGEN-API-TEST-HARNESS
+      - name: Run ImageGen API Test Harness
         run: |
           python server/classes/api/image_gen/test/test_ImageGen.py
 
       # Run the server test harness
-      - name: SERVER-INTEGRATION-TEST-HARNESS
+      - name: Run Flask Server Test Harness
         run: |
           python server/test/test_server.py

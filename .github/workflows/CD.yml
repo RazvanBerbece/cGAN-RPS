@@ -16,6 +16,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   deploy:
+
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -25,11 +26,17 @@ jobs:
       - uses: actions/checkout@v2
 
       # Install the required libs to deploy the app
-      - name: DEPLOY-BUILD-IMPORTS-VENV
+      - name: Build Flask Server
         run: |
           pip install -r requirements.txt
-          # python3 -m venv env
-
-      # Run the deployment commands for the Docker container with the app
-      - name: Deployment Process
-        run: echo Deploying to Heroku ...
+          python3 -m venv env
+          source env/bin/activate
+        
+      # Deploy Flask Server Docker image to Heroku
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "cgan-rps" 
+          heroku_email: "sc19rab@leeds.ac.uk"
+          usedocker: true
