@@ -9,5 +9,5 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-WORKDIR "/server"
+RUN cd server
 CMD ["python", "app.py"]
