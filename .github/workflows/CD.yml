@@ -35,10 +35,10 @@ jobs:
         
       # Deploy Flask Server Docker image to Heroku
       - name: Deploy to Heroku
+        working-directory: ${{ env.working-directory }}
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "cgan-rps" 
           heroku_email: "sc19rab@leeds.ac.uk"
           usedocker: true
-        working-directory: ${{ env.working-directory }}
