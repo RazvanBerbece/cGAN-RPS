@@ -27,32 +27,17 @@ jobs:
       - uses: actions/checkout@v2
 
       # Install the required libs to deploy the app
-      - name: DEPLOY-BUILD-IMPORTS-VENV
+      - name: Build Flask Server
         run: |
           pip install -r server/requirements.txt
           python3 -m venv env
           source env/bin/activate
-
-      # Login on the heroku Container Registry as prep for actual deployment
-      - name: HEROKU-LOGIN-CONTAINER-REGISTRY
-        env:
-          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
-        run: |
-          heroku auth:login
-          docker ps
-          heroku container:login
-        working-directory: ${{ env.working-directory }}
-
-      # Build app on the heroku Container Registry as prep for actual deployment
-      - name: HEROKU-APP-BUILD-CONTAINER-REGISTRY
-        env:
-          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
-        run: echo Building app...
-        working-directory: ${{ env.working-directory }}
-      
-      # Deploy to Heroku Container Regitry
-      - name: HEROKU-APP-DEPLOY-CONTAINER-REGISTRY
-        env:
-          HEROKU_SECRET_KEY: ${{ secrets.HEROKU_SECRET_KEY }}
-        run: echo Deploying app...
-        working-directory: ${{ env.working-directory }}
+        
+      # Deploy Flask Server Docker image to Heroku
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "cgan-rps" 
+          heroku_email: "sc19rab@leeds.ac.uk"
+          usedocker: true

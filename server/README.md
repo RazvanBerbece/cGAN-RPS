@@ -9,7 +9,7 @@ The app is containerized in a Docker image and it will be deployed using the Her
 ## Progress
 [ ] CI (test harness, job step) 
 
-[ ] CD (Heroku config, Docker image, job step) 
+[ ] CD (Heroku config, ~~Docker image~~, job step) 
 
 ## CI
 The continuous integration workflow can be found in .github/workflows/CI.yml and runs the test harness.
