@@ -27,7 +27,7 @@ jobs:
       # Install the required libs to run the test harnesses 
       - name: Build Flask Server
         run: |
-          pip install -r server/requirements.txt
+          pip install -r requirements.txt
           python3 -m venv env
           source env/bin/activate
 
