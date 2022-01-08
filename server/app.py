@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from os import environ
 from flask import Flask
 from flask import request
 from classes.api.image_gen.ImageGen import ImageGenerator
@@ -10,7 +11,6 @@ app = Flask(__name__)
 
 # Server Config Constants (used for app.run(...))
 HOST = '0.0.0.0'
-PORT = 5050
 
 ### API V1 Routes ###
 @app.route('/api/v1/')
@@ -94,4 +94,5 @@ def api_v1_generate():
 
 ### App Run ###
 if __name__ == '__main__':
-      app.run(host=HOST, port=PORT)
+      from os import environ # Get access to environment variables
+      app.run(debug=False, host=HOST, port=environ.get("PORT", 5050))
