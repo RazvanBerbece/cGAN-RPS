@@ -41,3 +41,4 @@ jobs:
           heroku_app_name: "cgan-rps" 
           heroku_email: "sc19rab@leeds.ac.uk"
           usedocker: true
+        working-directory: ${{ env.working-directory }}
