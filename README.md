@@ -14,7 +14,7 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 [ ] Quality Assurance for Machine Learning Applications
 
-[~] Deployment (~~ImageGen API~~, Server, CI/CD)
+[~] Deployment (~~ImageGen API~~, Server, ~~CI/CD~~)
 
 [ ] Monitoring and Maintenance
 
@@ -60,16 +60,18 @@ The Flask server deployment is automated using GitHub Actions and is deployed to
 TODO: There is a test harness which tests the behaviour of the ImageGen API. Additionally, it handles integration testing in order to test the behaviour of the server.
 
 ## Libs
+A few examples below of libraries used to run the entire project (model training, image generation, Flask server):
+
 1. Tensorflow (& Keras)
 2. sklearn
 3. Flask (for deployment purposes)
 4. Other commonly-used libs (numpy, matplotlib, cv2, etc.)
 
-Tensorflow, sklearn and Flask (if neccessary) have to be installed (in the virtual environment) using the commands below :
+For a complete list of the required libraries, check the ```requirements.txt``` file.
+
+Tensorflow, sklearn and Flask (if neccessary) have to be installed (in the virtual environment) by running the command below in the root directory of the repository :
 ```console
-pip install --upgrade tensorflow
-pip install scikit-learn
-pip install Flask
+pip3 install -r requirements.txt
 ```
 
 # Resources
