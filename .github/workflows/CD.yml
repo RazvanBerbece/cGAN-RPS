@@ -38,5 +38,5 @@ jobs:
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "cgan-rps" 
-          heroku_email: "sc19rab@leeds.ac.uk"
+          heroku_email: ${{ secrets.HEROKU_EMAIL_ADDRESS }}
           usedocker: true
