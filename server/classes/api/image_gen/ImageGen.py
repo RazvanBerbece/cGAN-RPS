@@ -15,6 +15,7 @@ class ImageGenerator:
     def generate_image(self, target: str):
         """
             Generate 1 image using the Generator model G in self.model with a given target
+            Returns an np array representation of the generated image
 
             <Params>
                 target = a str with the target of the generator (sanitised before being passed, eg: 'rock')
@@ -41,5 +42,8 @@ class ImageGenerator:
         generated_image_item = generated_images[0]
         generated_image_item = 255 * generated_image_item
         generated_image_item = tf.cast(generated_image_item, tf.uint8)
+
+        # Cast EagerTensor to np array for ease of further casting
+        generated_image_item = np.array(generated_image_item)
 
         return generated_image_item
