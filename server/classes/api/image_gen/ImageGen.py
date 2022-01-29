@@ -35,7 +35,7 @@ class ImageGenerator:
         noise = tf.random.normal([np_target.shape[0], latent_size])
 
         # Run a feedforward of the noise + target concat through G
-        generated_images = self.model.model([np_target, noise], training=False)
+        generated_images = self.model([np_target, noise], training=False)
 
         # Bring to normal format (colour, size, etc)
         generated_image_item = generated_images[0]

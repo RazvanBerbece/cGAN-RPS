@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
-from os import environ
+from os import environ # Get access to environment variables
 from flask import Flask
 from flask import request
 from classes.api.image_gen.ImageGen import ImageGenerator
 import datetime
-from os import environ # Get access to environment variables
 from tensorflow import keras
+import numpy as np
+import json
 
 app = Flask(__name__)
 
@@ -55,13 +56,16 @@ def api_v1_generate():
     
     try:
         # Load model
-        model = keras.models.load_model('trained_models/generator')
+        model = keras.models.load_model('trained_models/generator', compile=False)
         image_generator = ImageGenerator(model)
 
         # Generate image
         image = image_generator.generate_image(target)
 
         # TODO: Encode image data into base64
+        image = np.array(image)
+        image_data_lists = image.tolist()
+        json_image = json.dumps(image_data_lists)
 
         # Build response
         response = {
@@ -70,7 +74,7 @@ def api_v1_generate():
             'route': 'api/v1/',
             'data': {
                 'image_data': {
-                    'value': image,
+                    'value': json_image,
                     'target': target
                 },
                 'text_data': {}
