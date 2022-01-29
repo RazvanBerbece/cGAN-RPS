@@ -28,7 +28,7 @@ generator_initial_num_nodes     = 128
 # Discriminator Params
 discriminator_image_shape       = (128, 128, 3)
 discriminator_embedding_size    = 5
-discriminator_initial_num_nodes = 128 
+discriminator_initial_num_nodes = 64
 dropout_rate                    = 0.2
 # Training Step Params
 discriminator_optimiser         = 'Adamax'
@@ -36,7 +36,7 @@ generator_optimiser             = 'Adamax'
 # Training Params
 epochs                          = 125        # (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
 learning_rate_discriminator     = 0.00075    # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
-learning_rate_generator         = 0.00075    # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
+learning_rate_generator         = 0.00099    # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
 beta_min                        = 0.5
 add_noise                       = True       # Adds Gaussian noise to image batch when training
 
