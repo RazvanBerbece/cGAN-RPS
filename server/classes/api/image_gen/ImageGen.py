@@ -10,7 +10,16 @@ class ImageGenerator:
     """
 
     def __init__(self, model):
+        """
+            Initialise self.model with the trained Keras model
+        """
         self.model = model
+
+    def get_model_summary(self):
+        """
+            Return the summary of the Keras model attached to self.model
+        """
+        return self.model.summary()
     
     def generate_image(self, target: str):
         """

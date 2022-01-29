@@ -1,0 +1,11 @@
+__pycache__/
+SECURITY.md
+locals.txt
+README.md
+temp/
+server/README.md
+server/test/
+server/classes/api/image_gen/test/
+docs/
+assets/
+.github/

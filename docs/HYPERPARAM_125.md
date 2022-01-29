@@ -16,7 +16,7 @@ Tests ran on seed 345, on 60% train ratio and a batch size of 256.
 | D Optimiser               | Adamax    |   Adamax     |   
 | G Optimiser               | Adamax    |   Adamax     |   
 | Add Noise                 | True      |   True       |   
-| Optimiser Beta Min        | 0.5       |    0.5       |  
+| Optimiser Beta Min        | 0.5       |   0.5        |  
 | D Dropout Rate            | 0.2       |   0.2        |   
 | Optimiser Beta Min        | 0.5       |   0.5        |   
 | 🔴TRAINING TIME/EPOCH🔴    | ~3.7min   |   ?          |    
