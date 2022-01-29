@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 
 # Package Imports
+from operator import mod
+import sys
+from tabnanny import verbose
+
+from sklearn.utils import shuffle
 from model.classes.prep.Dataset import Dataset
 from model.classes.networks.generator.Generator import Generator
 from model.classes.networks.discriminator.Discriminator import Discriminator
 from model.functions.train.train import train
+from tensorflow import keras
 
 # Data Preparation
 seed                            = 345
@@ -56,17 +62,48 @@ discriminator.process_discriminator_network(                                \
     dropout_rate=dropout_rate)                                              
 
 # Training
-train(                                                                      \
-    dataset=dataset.dataset,                                                \
-    shape=training_image_shape,                                             \
-    epochs=epochs,                                                          \
-    learning_rate_d=learning_rate_discriminator,                            \
-    learning_rate_g=learning_rate_generator,                                \
-    add_noise=add_noise,                                                    \
-    latent_size=latent_size,                                                \
-    beta_min=beta_min,                                                      \
-    discriminator_optimizer=discriminator_optimiser,                        \
-    generator_optimizer=generator_optimiser,                                \
-    generator_model=generator.model,                                        \
-    discriminator_model=discriminator.model                                 \
-)
+arguments = sys.argv
+if arguments[1] == '-fromScratch':  
+    """
+        Train a new cGAN model with new, random weights
+    """
+    print('Training new cGAN model from scratch...')
+    train(                                                                      \
+        dataset=dataset.dataset,                                                \
+        shape=training_image_shape,                                             \
+        epochs=epochs,                                                          \
+        learning_rate_d=learning_rate_discriminator,                            \
+        learning_rate_g=learning_rate_generator,                                \
+        add_noise=add_noise,                                                    \
+        latent_size=latent_size,                                                \
+        beta_min=beta_min,                                                      \
+        discriminator_optimizer=discriminator_optimiser,                        \
+        generator_optimizer=generator_optimiser,                                \
+        generator_model=generator.model,                                        \
+        discriminator_model=discriminator.model                                 \
+    )
+elif arguments[1] == '-resume':
+    """
+        Resume training of an existing cGAN model from trained_models/
+    """
+    print('Loading existing cGAN model...')
+    # Load models from trained_models/
+    model_g = keras.models.load_model('trained_models/generator', compile=False)
+    model_d = keras.models.load_model('trained_models/discriminator', compile=False)
+
+    # Train loaded models
+    train(                                                                      \
+        dataset=dataset.dataset,                                                \
+        shape=training_image_shape,                                             \
+        epochs=epochs,                                                          \
+        learning_rate_d=learning_rate_discriminator,                            \
+        learning_rate_g=learning_rate_generator,                                \
+        add_noise=add_noise,                                                    \
+        latent_size=latent_size,                                                \
+        beta_min=beta_min,                                                      \
+        discriminator_optimizer=discriminator_optimiser,                        \
+        generator_optimizer=generator_optimiser,                                \
+        generator_model=model_g,                                                \
+        discriminator_model=model_d                                             \
+    )
+    
