@@ -9,3 +9,7 @@ server/classes/api/image_gen/test/
 docs/
 assets/
 .github/
+main.py
+model/classes/prep
+model/functions/
+env/
