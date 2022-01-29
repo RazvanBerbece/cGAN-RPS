@@ -110,19 +110,35 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
             discriminator_fake_output    = discriminator_model([generated_images, target], training=True)
 
         ### PLOTTING THE GENERATED IMAGE WITH THE LABEL
-        display_label = ""
-        if (target[0] == 0):
-            display_label = "ROCK"
-        elif (target[0] == 1):
-            display_label = "PAPER"
-        else:
-            display_label = "SCISSORS"
-        generated_image_item = generated_images[0]
-        generated_image_item = 255 * generated_image_item
-        generated_image_item = tf.cast(generated_image_item, tf.uint8)
+
+        # Extract labels from first 9 targets of input item
+        generated_image_labels = []
+        for label in target:
+            display_label = ""
+            if (label == 0):
+                display_label = "ROCK"
+            elif (label == 1):
+                display_label = "PAPER"
+            else:
+                display_label = "SCISSORS"
+            generated_image_labels.append(display_label)
+
+        # Get the first 9 generated images and cast them
+        generated_image_items = generated_images[:9]
+        generated_image_items = 255 * generated_image_items
+        generated_image_items = tf.cast(generated_image_items, tf.uint8)
+
+        # Plot the 9 images
+        counter = 0
+        plt.figure()
         plt.title(display_label)
-        plt.imshow(generated_image_item)
-        plt.savefig("temp/generated/trainingSample.png")
+        _, axarr = plt.subplots(3,3)
+        for row in axarr:
+            for col in row:
+                col.imshow(generated_image_items[counter])
+                col.set_title(generated_image_labels[counter])
+                counter = counter + 1
+        plt.savefig("temp/generated/trainingSampleMulti.png")
         # Clear plt figure (so eval can use it)
         plt.clf()
 
