@@ -24,13 +24,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Install the required libs to deploy the app
-      - name: Build Flask Server
-        run: |
-          pip install -r requirements.txt
-          python3 -m venv env
-          source env/bin/activate
         
       # Deploy Flask Server Docker image to Heroku
       - name: Deploy to Heroku
