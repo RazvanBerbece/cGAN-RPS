@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
 # Imports
-import imp
 from os import environ # Get access to environment variables
-import numpy as np
 import base64
 from flask import Flask
 from flask import request

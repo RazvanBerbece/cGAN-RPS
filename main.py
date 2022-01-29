@@ -9,7 +9,7 @@ from model.functions.train.train import train
 # Data Preparation
 seed                            = 345
 batch_size                      = 256
-train_ratio                     = '60%'
+train_ratio                     = '70%'
 dataset = Dataset(dataset='RockPaperScissors', seed=seed, trainRatio=train_ratio, batchSize=batch_size)
 
 # MODELLING CONSTANTS
@@ -32,7 +32,7 @@ dropout_rate                    = 0.2
 discriminator_optimiser         = 'Adamax'
 generator_optimiser             = 'Adamax'
 # Training Params
-epochs                          = 2          # (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
+epochs                          = 125        # (TODO: OPTIMISE PROCESS ?? (HYPERPARAMS, train_step()))
 learning_rate_discriminator     = 0.00075    # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
 learning_rate_generator         = 0.00075    # for this dataset & problem space, learning rates close to 0 prevent GAN COLLAPSE [ref.6]
 beta_min                        = 0.5
