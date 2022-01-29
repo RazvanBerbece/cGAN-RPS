@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 
+# Imports
+import imp
 from os import environ # Get access to environment variables
+import numpy as np
+import base64
 from flask import Flask
 from flask import request
 from classes.api.image_gen.ImageGen import ImageGenerator
-import datetime
 from tensorflow import keras
-import numpy as np
-import json
+from PIL import Image
+from io import BytesIO
+from classes.rest.Response import Response
 
 app = Flask(__name__)
 
@@ -18,20 +22,14 @@ HOST = '0.0.0.0'
 @app.route('/api/v1/')
 def api_v1_access_test():
     
-    # Standard response format in all cases
-    response = {
-        'status': 200,
-        'timestamp': datetime.datetime.now(),
-        'route': 'api/v1/',
-        'data': {
-            'image_data': {},
-            'text_data': {
-                'value': f'Server listening on port {environ.get("PORT", 5050)} !',
-            }
+    return Response.response(                                                                   \
+        status=200,                                                                             \
+        route='api/v1/',                                                                        \
+        data= {
+            'image_data': {}, 
+            'text_data': {'value': f'Server listening on port {environ.get("PORT", 5050)} !'}
         }
-    }
-
-    return response
+    )
 
 @app.route('/api/v1/generate')
 def api_v1_generate():
@@ -41,18 +39,17 @@ def api_v1_generate():
     # Sanitise target str
     target = target.lower()
     if target != 'rock' and target != 'paper' and target != 'scissors':
-        return {
-            'status': 500,
-            'timestamp': datetime.datetime.now(),
-            'route': 'api/v1/generate',
-            'data': {
-                'image_data': {},
+        return Response.response(                                                                   \
+            status=500,                                                                             \
+            route='api/v1/generate',                                                                \
+            data= {
+                'image_data': {}, 
                 'text_data': {
                     'value': 'Target has to be a one of these words : rock, paper, scissors',
                     'target': target
                 }
             }
-        }
+        )      
     
     try:
         # Load model
@@ -62,40 +59,36 @@ def api_v1_generate():
         # Generate image
         image = image_generator.generate_image(target)
 
-        # TODO: Encode image data into base64
-        image = np.array(image)
-        image_data_lists = image.tolist()
-        json_image = json.dumps(image_data_lists)
+        # Encode image data into base64 using PIL and a byte buffer
+        pil_image = Image.fromarray(image, 'RGB')
+        buffered = BytesIO()
+        pil_image.save(buffered, format='JPEG')
+        base64_string_image = base64.b64encode(buffered.getvalue()).decode('ascii')
 
-        # Build response
-        response = {
-            'status': 200,
-            'timestamp': datetime.datetime.now(),
-            'route': 'api/v1/',
-            'data': {
+        return Response.response(                                                                   \
+            status=200,                                                                             \
+            route='api/v1/generate',                                                                \
+            data= {
                 'image_data': {
-                    'value': json_image,
+                    'value': base64_string_image,
                     'target': target
-                },
+                }, 
                 'text_data': {}
             }
-        }
-
-        return response
+        ) 
 
     except OSError:
             # TODO: Better error messages
-            return {
-                'status': 500,
-                'timestamp': datetime.datetime.now(),
-                'route': 'api/v1/generate',
-                'data': {
-                    'image_data': {},
+            return Response.response(                                                                   \
+                status=500,                                                                             \
+                route='api/v1/generate',                                                                \
+                data= {
+                    'image_data': {}, 
                     'text_data': {
                         'value': 'Model file not found.'
                     }
                 }
-            }
+            ) 
 
 ### App Run ###
 if __name__ == '__main__':

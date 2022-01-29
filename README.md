@@ -14,7 +14,7 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 [ ] Quality Assurance for Machine Learning Applications
 
-[~] Deployment (~~ImageGen API~~, Server, ~~CI/CD~~)
+[~] Deployment (~~ImageGen API~~, ~Server~, ~~CI/CD~~)
 
 [ ] Monitoring and Maintenance
 
