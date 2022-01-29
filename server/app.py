@@ -20,9 +20,9 @@ HOST = '0.0.0.0'
 @app.route('/api/v1/')
 def api_v1_access_test():
     
-    return Response.response(                                                                   \
-        status=200,                                                                             \
-        route='api/v1/',                                                                        \
+    return Response.response(                                                                           \
+        status=200,                                                                                     \
+        route='api/v1/',                                                                                \
         data= {
             'image_data': {}, 
             'text_data': {'value': f'Server listening on port {environ.get("PORT", 5050)} !'}
@@ -37,9 +37,9 @@ def api_v1_generate():
     # Sanitise target str
     target = target.lower()
     if target != 'rock' and target != 'paper' and target != 'scissors':
-        return Response.response(                                                                   \
-            status=500,                                                                             \
-            route='api/v1/generate',                                                                \
+        return Response.response(                                                                       \
+            status=500,                                                                                 \
+            route='api/v1/generate',                                                                    \
             data= {
                 'image_data': {}, 
                 'text_data': {
@@ -63,9 +63,9 @@ def api_v1_generate():
         pil_image.save(buffered, format='JPEG')
         base64_string_image = base64.b64encode(buffered.getvalue()).decode('ascii')
 
-        return Response.response(                                                                   \
-            status=200,                                                                             \
-            route='api/v1/generate',                                                                \
+        return Response.response(                                                                       \
+            status=200,                                                                                 \
+            route='api/v1/generate',                                                                    \
             data= {
                 'image_data': {
                     'value': base64_string_image,

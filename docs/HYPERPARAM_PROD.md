@@ -21,10 +21,10 @@ Epochs : 125
 | D Dropout Rate            | 0.2       |    
 | Optimiser Beta Min        | 0.5       |    
 | 🔴TRAINING TIME/EPOCH🔴    | ~8.3min   |    
-| 🔴TOTAL TRAINING TIME🔴    | ~7.4hr    |   
-| 🔴AVG. LOSS D🔴            | 0.0633    |  
-| 🔴AVG. LOSS D_G🔴          | 2.16      |     
-| 🔴AVG. LOSS G🔴            | 3.57      |    
+| 🔴TOTAL TRAINING TIME🔴    | ?        |   
+| 🔴AVG. LOSS D🔴            | ?    |  
+| 🔴AVG. LOSS D_G🔴          | ?      |     
+| 🔴AVG. LOSS G🔴            | ?      |    
 
 # Loss Plot & Last Generated Image
 

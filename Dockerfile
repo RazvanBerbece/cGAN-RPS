@@ -5,7 +5,7 @@ FROM ubuntu:18.04
 
 MAINTAINER "Antonio Berbece"
 
-# Install default libs & python3  
+# Install default libs & python3
 RUN apt-get update && apt-get install -y    \
     python3-pip &&                          \
     rm -rf /var/lib/apt/lists/*
@@ -18,7 +18,7 @@ WORKDIR /root
 COPY requirements.txt requirements.txt
 RUN pip3 install --quiet --no-cache-dir -r requirements.txt
 
-# Copy project files (libs, resources, models, etc.) into container (TODO: .dockerignore for docs/, locals)
+# Copy project files (libs, resources, models, etc.) into container (except for files included in .dockerignore)
 COPY . .
 
 # Run script with server entrypoint 
