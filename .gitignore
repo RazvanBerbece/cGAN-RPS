@@ -1,14 +1,5 @@
 env/
 assets/.DS_Store
 .DS_Store
-model/classes/prep/__pycache__/
-model/classes/networks/generator/__pycache__/
-model/classes/networks/discriminator/__pycache__/
-model/classes/networks/train/__pycache__/
-model/functions/__pycache__/
-model/classes/api/image_gen/__pycache__/
-server/__pycache__/
-server/classes/api/image_gen/__pycache__/
-server/classes/api/image_gen/test/__pycache__/
-server/test/__pycache__/
 locals.txt
+__pycache__/

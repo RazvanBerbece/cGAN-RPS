@@ -19,7 +19,6 @@ class ImageGenerator:
         """
             Return the summary of the Keras model attached to self.model
         """
-        print(self.model.summary())
         return self.model.summary()
     
     def generate_image(self, target: str):

@@ -50,7 +50,7 @@ def api_v1_generate():
         )      
     
     try:
-        # Load model
+        # Load model from root/trained_models/
         model = keras.models.load_model('trained_models/generator', compile=False)
         image_generator = ImageGenerator(model)
 
