@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
 # Package Imports
-from operator import mod
 import sys
-from tabnanny import verbose
-
-from sklearn.utils import shuffle
 from model.classes.prep.Dataset import Dataset
 from model.classes.networks.generator.Generator import Generator
 from model.classes.networks.discriminator.Discriminator import Discriminator
