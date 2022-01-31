@@ -57,7 +57,7 @@ def train_step(images, target, latent_size, image_shape, discriminator_optimizer
             
         # 1-Tensor of the same shape as the discriminator outputs
         # (all training images are real, so that's why we use a 1-Tensor)
-        real_targets    = tf.ones_like(discriminator_real_output)
+        real_targets    = tf.ones_like(discriminator_real_output) - 0.1 # Smooth labeling is better when training D with real labels [ref. 8] 
         loss            = discriminator_loss_function('binary_cross_entropy', real_targets, discriminator_real_output)
         d_loss = loss.numpy()
         print(f'd_loss : {loss}')
