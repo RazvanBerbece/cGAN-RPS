@@ -36,9 +36,9 @@ jobs:
       # Run the API test harness
       - name: Run ImageGen API Test Harness
         run: |
-          python server/classes/api/image_gen/test/test_ImageGen.py
+          python -m unittest server/classes/api/image_gen/test/test_ImageGen.py
 
       # Run the server test harness
       - name: Run Flask Server Test Harness
         run: |
-          python server/test/test_server.py
+          python -m unittest server/test/test_server.py

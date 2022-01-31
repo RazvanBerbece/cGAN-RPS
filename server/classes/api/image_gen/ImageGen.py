@@ -17,9 +17,14 @@ class ImageGenerator:
 
     def get_model_summary(self):
         """
-            Return the summary of the Keras model attached to self.model
+            Display to stdout the summary of the Keras model attached to self.model
+            Returns a pair (status, errMsg), where status is whether the operation has been successful
         """
-        return self.model.summary()
+        try:
+            self.model.summary()
+            return (True, '')
+        except ValueError:
+            return (False, 'ValueError : Summary method cannot be used. Function called before model is built.')
     
     def generate_image(self, target: str):
         """
