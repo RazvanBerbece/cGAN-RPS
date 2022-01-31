@@ -82,3 +82,4 @@ pip3 install -r requirements.txt
 5. https://stackoverflow.com/questions/
 6. https://towardsdatascience.com/10-lessons-i-learned-training-generative-adversarial-networks-gans-for-a-year-c9071159628
 7. https://towardsdatascience.com/beating-the-gan-game-afbcce0a20be
+8. https://machinelearningmastery.com/how-to-train-stable-generative-adversarial-networks/
