@@ -14,7 +14,34 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+
+  test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Install the required libs to run the test harnesses 
+      - name: Build Flask Server
+        run: |
+          pip install -r requirements.txt
+          python3 -m venv env
+          source env/bin/activate
+
+      # Run the API test harness
+      - name: Run ImageGen API Test Harness
+        run: |
+          python -m unittest server/classes/api/image_gen/test/test_ImageGen.py
+
+      # Run the server test harness
+      - name: Run Flask Server Test Harness
+        run: |
+          python -m unittest server/test/test_server.py
+
+  # Step to deploy to Heroku
   deploy:
 
     # The type of runner that the job will run on
@@ -27,6 +54,7 @@ jobs:
         
       # Deploy Flask Server Docker image to Heroku
       - name: Deploy to Heroku
+        needs: test
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
