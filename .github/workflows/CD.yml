@@ -46,6 +46,9 @@ jobs:
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    
+    # Create dependency on test job to deploy
+    needs: test
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -54,7 +57,6 @@ jobs:
         
       # Deploy Flask Server Docker image to Heroku
       - name: Deploy to Heroku
-        needs: test
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
