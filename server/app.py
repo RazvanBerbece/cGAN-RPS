@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # Imports
+import os
 from os import environ # Get access to environment variables
 import base64
 from flask import Flask
@@ -83,7 +84,8 @@ def api_v1_generate():
                 data= {
                     'image_data': {}, 
                     'text_data': {
-                        'value': 'Model file not found.'
+                        'value': 'Model file not found',
+                        'location': os.getcwd()
                     }
                 }
             ) 

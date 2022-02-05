@@ -1,10 +1,29 @@
 #!/usr/bin/env python3
 
+from enum import Enum
 import unittest
 import signal
 import os
 import requests
 from subprocess import Popen
+
+class Targets(Enum):
+    """
+        Target strings for requests annd their respective expected status code
+    """
+    ROCK_TARGET = ('rock', 200)
+    PAPER_TARGET = ('paper', 200)
+    SCISSORS_TARGET = ('scissors', 200)
+    ROCK_TARGET_UPPERCASE = ('ROCK', 200)
+    PAPER_TARGET_UPPERCASE = ('PAPER', 200)
+    SCISSORS_TARGET_UPPERCASE = ('SCISSORS', 200)
+    ROCK_TARGET_INCOMPLETE = ('roc', 500)
+    ROCK_TARGET_SPACING = ('roc k', 500)
+    ROCK_TARGET_NEWLINE = ('rock\n', 500)
+    EMPTY_TARGET = ('', 500)
+    WRONG_TARGET_1 = ('wrong_target_example_123', 500)
+    WRONG_TARGET_2 = ('1234', 500)
+    WRONG_TARGET_3 = ('\n', 500)
 
 class ServerTestCase(unittest.TestCase):
 
@@ -15,8 +34,10 @@ class ServerTestCase(unittest.TestCase):
 
     def setUp(self):
         print("Creating server subprocess ...")
+        # Running server from root
+        os.chdir('..')
         self.server_subprocess_pid = -1
-        self.server_subprocess_pid = (Popen(['python', '../app.py'])).pid
+        self.server_subprocess_pid = (Popen(['python', './server/app.py'])).pid
         # Check whether subprocess failed, terminate test run if so
         if self.server_subprocess_pid == -1:
             self.fail('Server subprocess failed to create.')
@@ -40,17 +61,15 @@ class ServerTestCase(unittest.TestCase):
         """
             Test the GET api/v1/generate?target=<string> route of the REST server
         """
-        # Target constants for requests
-        ROCK_TARGET = 'rock'
-        PAPER_TARGET = 'paper'
-        SCISSORS_TARGET = 'scissors'
-        EMPTY_TARGET = ''
-        WRONG_TARGET_1 = 'wrong_target_example_123'
-        WRONG_TARGET_2 = '1234'
-        WRONG_TARGET_3 = '\n'
-        # Send HTTP request to the ImageGen endpoint with a target parameter
-        # response = requests.get("http://localhost:5050/api/v1/generate?target=")
-        pass
+        for target in Targets:
+            # Send HTTP requests to the ImageGen endpoint with the target parameters, 
+            # sequentially iterating through the Targets enum
+            url_string = f'http://localhost:5050/api/v1/generate?target={target.value[0]}'
+            response = requests.get(url_string)
+            response_json = response.json()
+            print(response_json)
+            # Analyse response from request
+            self.assertIs(response_json['status'], target.value[1])
 
     def tearDown(self):
         # Only kill subprocess if it is actually running
