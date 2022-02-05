@@ -40,8 +40,16 @@ class ServerTestCase(unittest.TestCase):
         """
             Test the GET api/v1/generate?target=<string> route of the REST server
         """
-        # Send HTTP request
-        # response = requests.get("http://localhost:5050/api/v1/")
+        # Target constants for requests
+        ROCK_TARGET = 'rock'
+        PAPER_TARGET = 'paper'
+        SCISSORS_TARGET = 'scissors'
+        EMPTY_TARGET = ''
+        WRONG_TARGET_1 = 'wrong_target_example_123'
+        WRONG_TARGET_2 = '1234'
+        WRONG_TARGET_3 = '\n'
+        # Send HTTP request to the ImageGen endpoint with a target parameter
+        # response = requests.get("http://localhost:5050/api/v1/generate?target=")
         pass
 
     def tearDown(self):
