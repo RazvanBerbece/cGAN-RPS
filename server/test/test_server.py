@@ -35,9 +35,8 @@ class ServerTestCase(unittest.TestCase):
     def setUp(self):
         print("Creating server subprocess ...")
         # Running server from root
-        os.chdir('..')
         self.server_subprocess_pid = -1
-        self.server_subprocess_pid = (Popen(['python', './server/app.py'])).pid
+        self.server_subprocess_pid = (Popen(['python', '../app.py'])).pid
         # Check whether subprocess failed, terminate test run if so
         if self.server_subprocess_pid == -1:
             self.fail('Server subprocess failed to create.')
