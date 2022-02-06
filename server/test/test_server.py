@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from enum import Enum
+import base64
 import unittest
-import signal
-import os
-import requests
-from subprocess import Popen
+from enum import Enum
+from PIL import Image
+from server.app import api_v1_access_test, api_v1_generate
+from io import BytesIO
 
 class Targets(Enum):
     """
@@ -29,52 +29,50 @@ class ServerTestCase(unittest.TestCase):
 
     """
         Integration testing suite for the Flask server
-        Sends REST requests to the server running in localhost as a subprocess created in setUp()
+        Calls the route functions
     """
-
-    def setUp(self):
-        print("Creating server subprocess ...")
-        # Running server from root
-        self.server_subprocess_pid = -1
-        self.server_subprocess_pid = (Popen(['python', 'server/app.py'])).pid
-        # Check whether subprocess failed, terminate test run if so
-        if self.server_subprocess_pid == -1:
-            self.fail('Server subprocess failed to create.')
 
     def test_api_v1_access_test(self):
         """
             Test the GET api/v1/ route of the REST server
         """
-        # Send HTTP request
-        response = requests.get("http://localhost:5050/api/v1/")
-        # Parse HTTP response to JSON
-        data = response.json()
-        # Check status & data in response
-        try:
-            self.assertIs(data['status'], 200) # REST status
-            assert(data['route'], 'api/v1/') 
-        except AttributeError:
-            self.fail('AttributeError : Returned data has missing response fields. Might mean the server is iresponsive.')
+        output = api_v1_access_test()
+        self.assertIs(output['status'], 200, 'AssertionIsError : api_v1_access_test status 500')
+        assert output['route'] == 'api/v1/', 'AssertError : api_v1_access_test wrong route'
     
     def test_api_v1_generate(self):
         """
             Test the GET api/v1/generate?target=<string> route of the REST server
         """
         for target in Targets:
-            # Send HTTP requests to the ImageGen endpoint with the target parameters, 
-            # sequentially iterating through the Targets enum
-            url_string = f'http://localhost:5050/api/v1/generate?target={target.value[0]}'
-            response = requests.get(url_string)
-            response_json = response.json()
-            print(response_json)
-            # Analyse response from request
-            self.assertIs(response_json['status'], target.value[1])
-
-    def tearDown(self):
-        # Only kill subprocess if it is actually running
-        if self.server_subprocess_pid != -1:
-            print("Killing server subprocess ...")
-            os.kill(self.server_subprocess_pid, signal.SIGKILL)
+            # Put target enum item values in more readable vars
+            input = target.value[0]
+            expected_status = target.value[1]
+            # Run api_v1_generate route
+            output = api_v1_generate(target_arg=input)
+            # Analyse output
+            ### STATUS CHECK
+            self.assertEqual(output['status'], expected_status, 'AssertionIsError : api_v1_generate status')
+            ### ROUTE CHECK
+            assert output['route'] == 'api/v1/generate', 'AssertError : api_v1_access_generate wrong route'
+            ### IMAGE DATA CHECK
+            try:
+                im_b64 = output['data']['image_data']['value']
+                im_bytes = base64.b64decode(im_b64) # decode b64 into binary format
+                im_file = BytesIO(im_bytes) # convert image to file-like object
+                try:
+                    img = Image.open(im_file)
+                    # TODO: Further checks here ?
+                    pass
+                except IOError:
+                    self.fail('IOError : Image cannot be created from b64 encoded string')
+            except KeyError:
+                if expected_status == 500:
+                    # When the server is expected to return status 500, 
+                    # 'value' won't exist in the dict response
+                    pass
+                else:
+                    self.fail('KeyError : Key not in output[\'data\'][\'image_data\'][\'value\']')
     
 if __name__ == '__main__':
     unittest.main(verbosity=2)

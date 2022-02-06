@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+import sys
+import os
+# Setting runtime path to server/ to access the classes module
+sys.path.insert(1, os.path.join(sys.path[0], 'server'))
+
 # Imports
 import os
 from os import environ # Get access to environment variables
@@ -31,9 +36,14 @@ def api_v1_access_test():
     )
 
 @app.route('/api/v1/generate')
-def api_v1_generate():
+def api_v1_generate(target_arg=None):
 
-    target = request.args.get('target')
+    # target_arg used by the server test case, to avoid running a server subprocess
+    # in GitHub Actions and making HTTP requests
+    if target_arg == None:
+        target = request.args.get('target')
+    else:
+        target = target_arg
 
     # Sanitise target str
     target = target.lower()
@@ -44,7 +54,7 @@ def api_v1_generate():
             data= {
                 'image_data': {}, 
                 'text_data': {
-                    'value': 'Target has to be a one of these words : rock, paper, scissors',
+                    'value': 'Target has to be a one of these words (case-insensitive) : rock, paper, scissors',
                     'target': target
                 }
             }
