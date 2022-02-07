@@ -30,6 +30,12 @@ To manually run the Docker app, run these commands in root repository folder :
 
 ### CI
 The continuous integration workflow can be found in ```.github/workflows/CI.yml``` and runs the test harness.
+## Run Tests
+To run the ImageGen test harness and the Flask server routes test harness, execute these 2 commands from the root of the repository.
+```console
+python -m unittest server/classes/api/image_gen/test/test_ImageGen.py
+python -m unittest server/test/test_server.py
+```
 
 ### CD
 The continuous deployment workflow can be found in ```.github/workflows/CD.yml``` and runs the deployment commands to deploy the app to Heroku.
