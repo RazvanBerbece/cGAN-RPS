@@ -14,7 +14,7 @@ Will use the CRISP-ML(Q) process model for the development of the project.
 
 [ ] Quality Assurance for Machine Learning Applications
 
-[~] Deployment (~~ImageGen API~~, ~Server~, ~~CI/CD~~)
+[x] Deployment (~~ImageGen API~~, ~Server~, ~~CI/CD~~)
 
 [ ] Monitoring and Maintenance
 
@@ -57,7 +57,8 @@ A Flask server was created that incorporates the ImageGen API which accepts REST
 
 The Flask server deployment is automated using GitHub Actions and is deployed to Heroku.
 
-TODO: There is a test harness which tests the behaviour of the ImageGen API. Additionally, it handles integration testing in order to test the behaviour of the server.
+There is a test harness which tests the behaviour of the ImageGen API. 
+Additionally, a test harness was created in order to test the behaviour of the server routes.
 
 ## Libs
 A few examples below of libraries used to run the entire project (model training, image generation, Flask server):

@@ -13,7 +13,7 @@ CI/CD is implemented through GitHub Actions and automates testing the app & depl
 The app is containerized in a Docker image and it will be deployed using the Heroku Container Registry.
 
 ### Progress
-[ ] CI (test harness, ~~job step~~) 
+[x] CI (~test harness~, ~~job step~~) 
 
 [x] CD (~~Heroku config~~, ~~Docker image~~, ~~job step~~) 
 
